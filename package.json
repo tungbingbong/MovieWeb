@@ -1,43 +1,59 @@
 {
-  "name": "movie-react",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
-  },
-  "devDependencies": {
-    "babel-plugin-module-resolver": "^5.0.0",
-    "customize-cra": "^1.0.0",
-    "react-app-rewired": "^2.2.1"
-  },
-  "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "movie-react",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@react-hook/debounce": "^4.0.0",
+        "@testing-library/jest-dom": "^5.17.0",
+        "@testing-library/react": "^13.4.0",
+        "@testing-library/user-event": "^13.5.0",
+        "antd": "^5.8.6",
+        "autoprefixer": "^10.4.15",
+        "node-sass": "^7.0.3",
+        "normalize.css": "^8.0.1",
+        "postcss": "^8.4.29",
+        "prop-types": "^15.8.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-paginate": "^8.2.0",
+        "react-router-dom": "^6.15.0",
+        "react-scripts": "5.0.1",
+        "swiper": "^10.2.0",
+        "swiper-react": "^1.0.0",
+        "swr": "^2.2.2",
+        "uuid": "^9.0.0",
+        "web-vitals": "^2.1.4"
+    },
+    "devDependencies": {
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+        "babel-plugin-module-resolver": "^5.0.0",
+        "customize-cra": "^1.0.0",
+        "react-app-rewired": "^2.2.1",
+        "sass": "^1.66.1",
+        "tailwindcss": "^3.3.3"
+    },
+    "scripts": {
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
+        "test": "react-app-rewired test",
+        "eject": "react-app-rewired eject"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
 }

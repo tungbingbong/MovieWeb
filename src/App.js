@@ -1,25 +1,52 @@
-import logo from './logo.svg';
+import { GenreProvider } from './context/GenreContext';
+import { Fragment, lazy, Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import 'swiper/scss';
+
 import './App.css';
+import Main from '~/components/layout/Main';
+import Banner from './components/banner/Banner';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import MovieSearchPage from './pages/Movies/MovieSearchPage';
+
+const HomePage = lazy(() => import('~/pages/Home/Home'));
+const MoviePage = lazy(() => import('~/pages/Movies/MoviePage'));
+const MovieDetailPage = lazy(() => import('~/pages/Movies/MovieDetailPage'));
+const GenresSearchPage = lazy(() => import('~/pages/GenresSearchPage/GenresSearchPage'));
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Fragment>
+            <Suspense>
+                <GenreProvider>
+                    <Routes>
+                        <Route element={<Main></Main>}>
+                            <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
+                            <Route
+                                path="/"
+                                element={
+                                    <Fragment>
+                                        <Banner></Banner>
+                                        <HomePage></HomePage>
+                                    </Fragment>
+                                }
+                            ></Route>
+                            <Route path="/movies&page=:page" element={<MoviePage></MoviePage>}></Route>
+                            <Route path="/movies/:movieId" element={<MovieDetailPage></MovieDetailPage>}></Route>
+                            <Route
+                                path="/movies/page=:page&search=:movieName"
+                                element={<MovieSearchPage></MovieSearchPage>}
+                            ></Route>
+                            <Route
+                                path="/movies/page=:page&searchGenre=:genre&type=:type"
+                                element={<GenresSearchPage></GenresSearchPage>}
+                            ></Route>
+                        </Route>
+                    </Routes>
+                </GenreProvider>
+            </Suspense>
+        </Fragment>
+    );
 }
 
 export default App;
