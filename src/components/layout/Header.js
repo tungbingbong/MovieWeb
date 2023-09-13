@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import Genres from '~/components/genresSelector/Genres';
@@ -18,9 +18,11 @@ const list = [
 ];
 
 const Header = () => {
+    const [isHovered, setIsHovered] = useState(false);
+
     return (
         <Fragment>
-            <div className="z-[200] flex flex-row justify-between px-10 py-5 bg-slate-900 items-center relative rounded-lg bg-opacity-70">
+            <div className="z-[200] flex md:flex-row flex-col justify-between mb-5 p-5bg-slate-900 items-center relative rounded-lg bg-opacity-70">
                 <div className={`header text-white flex items-center justify-center md:gap-7 gap-4 z-[60]`}>
                     {list.map((item) => (
                         <NavLink
@@ -33,7 +35,7 @@ const Header = () => {
                             {item.title}
                         </NavLink>
                     ))}
-                    <Genres></Genres>
+                    <Genres isHovered={isHovered} setIsHovered={setIsHovered}></Genres>
                 </div>
                 <SearchBar></SearchBar>
             </div>

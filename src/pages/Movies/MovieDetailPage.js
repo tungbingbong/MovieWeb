@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { tmdb } from '~/config';
 
@@ -45,38 +45,47 @@ const MovieDetailPage = () => {
                     src={`https://image.tmdb.org/t/p/original${movie?.backdrop_path}`}
                 />
             </div>
-            <div className="w-[60%] h-[600px] relative mx-auto bg-white overflow-hidden rounded-xl">
+            <div className="w-[50%] md:h-[600px] h-[350px] relative md:mx-auto bg-white overflow-hidden rounded-xl">
                 <img
                     className=" w-full h-full object-cover"
                     alt=""
                     src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
                 />
             </div>
-            <span className="text-[30px] mx-auto font-semibold">{movie?.title}</span>
-            <div className="flex flex-row justify-center flex-nowrap gap-x-10">
+            <span className="md:text-[30px] text-[25px] mx-auto font-semibold">{movie?.title}</span>
+            <div className="flex flex-row justify-center flex-wrap md:gap-x-10 gap-5">
                 {movie?.genres?.length > 0 &&
                     movie?.genres?.map((item) => (
-                        <div key={movie?.genres?.indexOf(item)} className="border border-tags rounded-xl text-tags p-2">
+                        <Link
+                            key={movie?.genres?.indexOf(item)}
+                            to={`/movies/page=1&searchGenre=${item.id}&type=${item.name}`}
+                            className="border border-tags rounded-xl text-tags flex justify-center items-center p-2 hover:text-white hover:bg-tags transition-all"
+                        >
                             {item.name}
-                        </div>
+                        </Link>
                     ))}
             </div>
             <span className="w-[80%] mx-auto text-center leading-relaxed">{movie?.overview}</span>
             <span className="text-[25px] mx-auto font-semibold">Cast</span>
-            <div className="flex flex-row gap-x-5 max-w-[1280px] h-auto mx-auto justify-center">
+            <div className="flex md:flex-row flex-col md:gap-5 gap-8 lg:max-w-[1280px] md:mb-0 mb-8 h-auto mx-auto justify-center">
                 {credit?.length > 0 &&
                     credit?.map((item) => (
-                        <div className="w-[15%] flex flex-col gap-y-5 text-center" key={item.id}>
+                        <div
+                            className="md:w-[15%] flex md:flex-col flex-row gap-5 md:text-center justify-start"
+                            key={item.id}
+                        >
                             {item.profile_path && (
-                                <img
-                                    src={
-                                        item.profile_path
-                                            ? `https://image.tmdb.org/t/p/w500/${item.profile_path}`
-                                            : null
-                                    }
-                                    className="w-full h-[250px] object-cover rounded-lg"
-                                    alt=""
-                                />
+                                <div className="md:w-full w-[80px] md:h-auto h-[80px] md:rounded-lg rounded-full overflow-hidden">
+                                    <img
+                                        src={
+                                            item.profile_path
+                                                ? `https://image.tmdb.org/t/p/w500/${item.profile_path}`
+                                                : null
+                                        }
+                                        className="w-full md:h-[250px] md:object-cover md:rounded-lg object-contain object-center"
+                                        alt=""
+                                    />
+                                </div>
                             )}
                             <div className="flex flex-col ">
                                 <span className="text-[20px]">{item.name}</span>
@@ -89,11 +98,11 @@ const MovieDetailPage = () => {
             <div className="relative w-full">
                 {video?.results?.length > 0 ? (
                     <iframe
-                        className="relative left-2/4 -translate-x-2/4"
+                        className="relative left-2/4 -translate-x-2/4 md:w-[700px] w-auto"
                         width="727"
                         height="409"
                         src={`https://www.youtube.com/embed/${video?.results && video?.results[0].key}`}
-                        title="Dilwale Dulhania Le Jayenge | 25 Years Weeks Trailer | Shah Rukh Khan, Kajol | Aditya Chopra | DDLJ"
+                        title={video?.results[0]?.name}
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen

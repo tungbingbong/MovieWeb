@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import useGetMovies from '~/hooks/useGetMovies';
 import MovieCard, { MovieCardLoading } from '../movieCard/movieCard';
+import { SlideNextButton, SlidePrevButton } from '../button/SlideButton';
 
 const MovieList = ({ type }) => {
     const movies = useGetMovies({ type });
@@ -32,7 +33,9 @@ const MovieList = ({ type }) => {
                     </SwiperSlide>
                 </Swiper>
             )}
-            <Swiper grabCursor={'true'} spaceBetween={50} slidesPerView={'auto'}>
+            <Swiper grabCursor={'true'} spaceBetween={20} slidesPerView={`auto`}>
+                <SlideNextButton></SlideNextButton>
+                <SlidePrevButton></SlidePrevButton>
                 {movies?.results?.length > 0 &&
                     movies?.results?.map((item) => (
                         <SwiperSlide key={item.id}>

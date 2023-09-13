@@ -5,9 +5,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/scss';
 
 import BannerSlide from './BannerSlide';
+import { SlidePrevButton, SlideNextButton } from '../button/SlideButton';
 
 const Banner = () => {
     const [banners, setBanners] = useState([]);
+    console.log(banners);
     const { data } = useSWR(tmdb.getMovieList('upcoming'), fetcher);
     useEffect(() => {
         if (data && data.results) {
@@ -17,8 +19,10 @@ const Banner = () => {
 
     return (
         <section className="banner h-[500px] container rounded-xl relative mb-20 selection-none">
-            <div className="banner-wrapper w-full h-full">
+            <div className="banner-wrapper w-full h-full text-white">
                 <Swiper spaceBetween={50} slidesPerView={1} grabCursor={'true'}>
+                    <SlideNextButton></SlideNextButton>
+                    <SlidePrevButton></SlidePrevButton>
                     {banners?.results?.length > 0 &&
                         banners.results.map((item) => (
                             <SwiperSlide key={item.id}>

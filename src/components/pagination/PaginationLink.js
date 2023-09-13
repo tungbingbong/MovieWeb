@@ -16,7 +16,7 @@ const PaginationLink = ({ item, movieName, type }) => {
                     : `/movies&page=${item}`
             }
             className={({ isActive }) =>
-                `w-auto h-8 p-2 flex justify-center items-center bg-slate-700 hover:scale-150 transition-all hover:rounded-lg ${
+                `w-auto h-8 p-2 flex justify-center items-center bg-slate-700 hover:scale-150 transition-all mx-1 hover:rounded-lg ${
                     isActive ? 'scale-150 rounded-lg' : ''
                 }`
             }

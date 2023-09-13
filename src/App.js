@@ -2,6 +2,7 @@ import { GenreProvider } from './context/GenreContext';
 import { Fragment, lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import 'swiper/scss';
+import 'swiper/css/effect-fade';
 
 import './App.css';
 import Main from '~/components/layout/Main';

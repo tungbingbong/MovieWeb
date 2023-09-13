@@ -15,13 +15,13 @@ const SearchBar = () => {
     };
 
     return (
-        <form className="flex flex-row justify-center max-w-[400px]" onSubmit={handleClick}>
+        <form className="flex flex-row justify-center mx-5 md:max-w-[300px] w-full" onSubmit={handleClick}>
             <input
                 type="text"
                 name=""
                 id=""
                 placeholder="Search"
-                className="px-4 border border-primary outline-none rounded-l-lg w-[500px]"
+                className="px-4 border border-primary outline-none rounded-l-lg w-full"
                 onChange={handleChange}
                 ref={filmSearchRef}
             />
