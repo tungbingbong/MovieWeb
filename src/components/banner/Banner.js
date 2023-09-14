@@ -20,7 +20,7 @@ const Banner = () => {
     return (
         <section className="banner h-[500px] container rounded-xl relative mb-20 selection-none">
             <div className="banner-wrapper w-full h-full text-white">
-                <Swiper spaceBetween={50} slidesPerView={1} grabCursor={'true'}>
+                <Swiper spaceBetween={50} slidesPerView={1} grabCursor={'true'} loop={true}>
                     <SlideNextButton></SlideNextButton>
                     <SlidePrevButton></SlidePrevButton>
                     {banners?.results?.length > 0 &&
