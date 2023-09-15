@@ -1,34 +1,32 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { UseSelector } from 'react-redux';
 
 import LoadingSkeleton from '~/loading/LoadingSkeleton';
-import ButtonWatch from '~/components/button/ButtonWatch';
 
-const MovieCard = ({ name, src, vote, release, id }) => {
+const MovieListItem = ({ name, src, vote, id }) => {
     const navigate = useNavigate();
 
     return (
-        <div className="max-w-[200px] md:max-w-full h-auto rounded-xl overflow-hidden p-3 relative select-none md:hover:scale-110 transition-all cursor-pointer">
+        <div
+            className="max-w-[200px] cursor-pointer md:max-w-full h-[300px] md:h-auto rounded-xl overflow-hidden p-3 relative select-none"
+            onClick={() => navigate(`/movies/${id}`)}
+        >
             <div className="z-50 relative w-full h-full flex flex-col gap-y-2 overflow-hidden">
                 <img
                     src={`https://image.tmdb.org/t/p/w500/${src}`}
                     alt=""
-                    className="w-full h-full object-cover rounded-xl"
+                    className="max-w-full h-[85%] object-cover rounded-xl"
                 />
                 <span className="truncate max-w-[80%] h-[30px] mt-2">{name}</span>
                 <div className="flex flex-row justify-between text-sm absolute z-30 gap-1 top-0 left-0 w-full md:p-2">
-                    <span className="drop-shadow-lg bg-tags p-2 rounded-lg md:px-4 md:py-2 font-semibold text-white bg-opacity-50">
-                        {new Date(release).getFullYear()}
-                    </span>
                     <div className="flex flex-row items-center gap-x-3">
                         <span className="drop-shadow-lg bg-tags rounded-lg md:px-3 md:py-2 p-2  font-semibold text-white bg-opacity-50 flex gap-1 justify-center items-center">
-                            {Math.round(vote * 10) / 10}
+                            {vote}
                             <svg
                                 width="20"
                                 height="20"
                                 viewBox="0 0 16 15"
-                                fill="none"
+                                fill="white"
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="inline"
                             >
@@ -41,34 +39,25 @@ const MovieCard = ({ name, src, vote, release, id }) => {
                                         3.63059 13.4477L5.01525 9.18612C5.06211 9.04191 5.01078 8.88393 4.88811 8.7948L1.26301 
                                         6.16102C0.988711 5.96173 1.12968 5.52786 1.46874 5.52786H5.9496C6.10123 5.52786 6.23561 
                                         5.43023 6.28247 5.28602L7.66713 1.02447Z"
-                                    stroke="#FFB86C"
-                                    strokeWidth="1.5"
                                 />
                             </svg>
                         </span>
                     </div>
                 </div>
-                <ButtonWatch
-                    className="text-lg flex justify-center items-center px-4 py-2 mt-auto relative bottom-0 rounded-xl"
-                    bgColor={'secondary'}
-                    onClick={() => navigate(`/movies/${id}`)}
-                >
-                    Watch Now
-                </ButtonWatch>
             </div>
             <div className="absolute inset-0 p-3">
                 <img
-                    className="w-full h-full object-cover rounded-xl"
                     src={`https://image.tmdb.org/t/p/w500/${src}`}
                     alt=""
+                    className="w-full h-full object-cover rounded-xl hidden md:block"
                 />
-                <div className="layer absolute inset-0 backdrop-blur-md rounded-xl bg-[#000000] bg-opacity-40"></div>
+                <div className="layer absolute inset-0 md:backdrop-blur-md rounded-xl bg-[#000000] bg-opacity-40"></div>
             </div>
         </div>
     );
 };
 
-export default MovieCard;
+export default MovieListItem;
 
 export const MovieCardLoading = () => {
     return (
@@ -79,9 +68,8 @@ export const MovieCardLoading = () => {
                 <div className="flex flex-row justify-between text-sm mt-auto">
                     <LoadingSkeleton className="w-[50px] h-[20px]"></LoadingSkeleton>
                     <div className="flex flex-row items-center gap-x-3">
-                        <LoadingSkeleton className="w-[30px] h-[20px] "></LoadingSkeleton>
-                        <LoadingSkeleton className="w-[30px] h-[20px] "></LoadingSkeleton>
-
+                        <LoadingSkeleton className="w-[30px] h-[20px]"></LoadingSkeleton>
+                        <LoadingSkeleton className="w-[30px] h-[20px]"></LoadingSkeleton>
                         <svg
                             width="20"
                             height="20"
