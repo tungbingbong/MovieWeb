@@ -2,16 +2,13 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useGetMovies from '~/hooks/useGetMovies';
 
+import { tmdb } from '~/config';
+
 const Genres = ({ isHovered, setIsHovered }) => {
     // https://api.themoviedb.org/3/discover/movie?api_key=68ff44b16c8cfc514f5219295b422d75&with_genres=28
     // https://api.themoviedb.org/3/genre/movie/list?api_key=68ff44b16c8cfc514f5219295b422d75&language=en-US
-    const movies = useGetMovies({
-        endpoint:
-            'https://api.themoviedb.org/3/genre/movie/list?api_key=68ff44b16c8cfc514f5219295b422d75&language=en-US',
-    })?.genres;
-
+    const movies = useGetMovies(tmdb.getMovieGenre())?.genres;
     const navigate = useNavigate();
-    console.log(movies);
     const loading = !movies;
 
     const handleOpenGenres = (e) => {

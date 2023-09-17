@@ -6,8 +6,11 @@ const searchEndpoint =
 const apiKey = '68ff44b16c8cfc514f5219295b422d75';
 
 export const tmdb = {
-    getMovieList: (type) => `${endpointMovie}/${type}?api_key=${apiKey}&language=en-US&page=1`,
+    getMovieList: (type, page) => `${endpointMovie}/${type}?api_key=${apiKey}&language=en-US&page=${page ? page : 1}`,
     getMovieDetails: (id, detail) =>
         `${endpointMovie}/${id}${detail ? `/${detail}` : ''}?api_key=${apiKey}&language=en-US`,
-    getMoviePage: (query, page) => `${searchEndpoint}&page=${page}&query=${query}`,
+    getMovieSearchPage: (query, page) => `${searchEndpoint}&page=${page}&query=${query}`,
+    getMovieGenre: () => `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`,
+    getMovieGenreList: (genre, page) =>
+        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genre}&page=${page}`,
 };

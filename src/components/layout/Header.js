@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import Genres from '~/components/genresSelector/Genres';
+// import { useFilm } from '~/context/FilmContext';
 import SearchBar from './Searchbar';
 
 const list = [
@@ -12,7 +13,7 @@ const list = [
     },
     {
         id: 2,
-        title: 'Movies',
+        title: 'Explore',
         to: '/movies&page=1',
     },
 ];

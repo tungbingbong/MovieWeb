@@ -13,7 +13,7 @@ const MovieSearchPage = () => {
     const page = useParams().page;
 
     const searchAPI = useGetMovies({
-        endpoint: tmdb.getMoviePage(movieName, page),
+        endpoint: tmdb.getMovieSearchPage(movieName, page),
     });
 
     const loading = !searchAPI;

@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { tmdb } from '~/config';
 
-import MovieCard from '~/components/movieCard/movieCard';
+import MovieListItem from '~/components/movieCard/MovieListItem';
 import useGetMovies from '~/hooks/useGetMovies';
 
 const MovieDetailPage = () => {
@@ -13,21 +13,13 @@ const MovieDetailPage = () => {
     const [video, setVideo] = useState();
     const [similar, setSimilar] = useState();
 
-    const response = useGetMovies({
-        endpoint: tmdb.getMovieDetails(movieId, null),
-    });
+    const response = useGetMovies(tmdb.getMovieDetails(movieId, null));
 
-    const creditResponse = useGetMovies({
-        endpoint: tmdb.getMovieDetails(movieId, 'credits'),
-    });
+    const creditResponse = useGetMovies(tmdb.getMovieDetails(movieId, 'credits'));
 
-    const videoResponse = useGetMovies({
-        endpoint: tmdb.getMovieDetails(movieId, 'videos'),
-    });
+    const videoResponse = useGetMovies(tmdb.getMovieDetails(movieId, 'videos'));
 
-    const similarResponse = useGetMovies({
-        endpoint: tmdb.getMovieDetails(movieId, 'similar'),
-    });
+    const similarResponse = useGetMovies(tmdb.getMovieDetails(movieId, 'similar'));
 
     useEffect(() => {
         setMovie(response);
@@ -37,7 +29,7 @@ const MovieDetailPage = () => {
     }, [response, creditResponse, videoResponse, similarResponse]);
 
     return (
-        <div className="flex flex-col gap-y-10 text-white pb-10">
+        <div className="flex flex-col gap-5 text-white pb-10">
             <div className="h-[500px] w-full top-0 left-[50%] -translate-x-2/4 absolute -z-10">
                 <img
                     className="opacity-20 w-full h-full object-cover"
@@ -75,7 +67,7 @@ const MovieDetailPage = () => {
                             key={item.id}
                         >
                             {item.profile_path && (
-                                <div className="md:w-full w-[80px] md:h-auto h-[80px] md:rounded-lg rounded-full overflow-hidden">
+                                <div className="md:w-full w-[80px] md:h-[250px] md:border-white md:border h-[80px] md:rounded-lg rounded-full overflow-hidden">
                                     <img
                                         src={
                                             item.profile_path
@@ -122,14 +114,14 @@ const MovieDetailPage = () => {
                         {similar &&
                             similar?.results?.slice(0, 6)?.map((item) => (
                                 <SwiperSlide key={item.id}>
-                                    <MovieCard
+                                    <MovieListItem
                                         name={item.title || item.name}
                                         src={item.poster_path}
                                         vote={item.vote_average}
                                         release={item.release_date || item.first_air_date}
                                         id={item.id}
                                         item={item}
-                                    ></MovieCard>
+                                    ></MovieListItem>
                                 </SwiperSlide>
                             ))}
                     </Swiper>

@@ -1,14 +1,17 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { v4 } from 'uuid';
+import { tmdb } from '~/config';
 
 import MovieCard, { MovieCardLoading } from '~/components/movieCard/movieCard';
 import Pagination from '~/components/pagination/Pagination';
 import useGetMovies from '~/hooks/useGetMovies';
+import { useFilm } from '~/context/FilmContext';
 
 const MoviePage = () => {
     const page = useParams().page;
-    const movies = useGetMovies({ type: 'popular', page });
+    const movieState = useFilm();
+    const movies = useGetMovies(movieState ? tmdb.getMovieList('popular', page) : tmdb.getMovieList('popular', page));
     const loading = !movies;
 
     return (

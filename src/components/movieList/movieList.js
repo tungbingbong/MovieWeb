@@ -1,5 +1,6 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { tmdb } from '~/config';
 
 import useGetMovies from '~/hooks/useGetMovies';
 import MovieListItem from '../movieCard/MovieListItem';
@@ -7,7 +8,7 @@ import { MovieCardLoading } from '../movieCard/movieCard';
 import { SlideNextButton, SlidePrevButton } from '../button/SlideButton';
 
 const MovieList = ({ type }) => {
-    const movies = useGetMovies({ type });
+    const movies = useGetMovies(tmdb.getMovieList(type));
     const isLoading = !movies || movies.length < 1;
 
     return (

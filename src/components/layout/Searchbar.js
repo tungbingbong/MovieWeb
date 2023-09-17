@@ -1,14 +1,9 @@
-import { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const SearchBar = () => {
-    const [filter, setFilter] = useState('');
     const filmSearchRef = useRef();
     const navigate = useNavigate();
-
-    const handleChange = (e) => {
-        setFilter(e.target.value);
-    };
 
     const handleClick = () => {
         navigate(`/movies/page=1&search=${filmSearchRef.current.value}`);
@@ -22,7 +17,6 @@ const SearchBar = () => {
                 id=""
                 placeholder="Search"
                 className="px-4 border border-primary outline-none rounded-l-lg w-full"
-                onChange={handleChange}
                 ref={filmSearchRef}
             />
             <button
