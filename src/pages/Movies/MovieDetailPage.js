@@ -45,6 +45,12 @@ const MovieDetailPage = () => {
                 />
             </div>
             <span className="md:text-[30px] text-[25px] mx-auto font-semibold">{movie?.title}</span>
+            <Link
+                to={`/movies/${movieId}/watch`}
+                className="px-6 py-3 rounded-xl hover:opacity-80 transition-all bg-primary mx-auto my-2 text-white text-xl"
+            >
+                Watch Now
+            </Link>
             <div className="flex flex-row justify-center flex-wrap md:gap-x-10 gap-5">
                 {movie?.genres?.length > 0 &&
                     movie?.genres?.map((item) => (

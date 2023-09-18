@@ -18,7 +18,7 @@ const MoviePage = () => {
         <>
             {loading ? (
                 <div className="w-full h-auto text-white flex flex-wrap flex-row md:gap-7 gap-3 justify-center">
-                    {new Array(20).fill(0).map((item) => (
+                    {new Array(20).fill(0).map(() => (
                         <div className="md:w-[300px] w-[45%] flex-shrink-0" key={v4()}>
                             <MovieCardLoading></MovieCardLoading>
                         </div>
@@ -44,6 +44,14 @@ const MoviePage = () => {
                     <Pagination page={page} searchAPI={movies}></Pagination>
                 </>
             )}
+            <iframe
+                src="https://www.2embed.to/embed/tmdb/movie?id=1010283"
+                width="100%"
+                height="100%"
+                allowFullScreen
+                frameBorder="0"
+                title="Hello"
+            ></iframe>
         </>
     );
 };
