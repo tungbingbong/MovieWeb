@@ -8,7 +8,7 @@ const MovieListItem = ({ name, src, vote, id }) => {
 
     return (
         <div
-            className="max-w-[200px] cursor-pointer md:max-w-full h-[300px] md:h-auto rounded-xl overflow-hidden p-3 relative select-none"
+            className="w-[200px] cursor-pointer md:w-full h-[300px] md:h-auto rounded-xl overflow-hidden p-3 relative select-none"
             onClick={() => navigate(`/movies/${id}`)}
         >
             <div className="z-50 relative w-full h-full flex flex-col gap-y-2 overflow-hidden">

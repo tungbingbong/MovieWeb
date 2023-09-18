@@ -1,7 +1,7 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { tmdb } from '~/config';
 
+import { tmdb } from '~/config';
 import useGetMovies from '~/hooks/useGetMovies';
 import MovieListItem from '../movieCard/MovieListItem';
 import { MovieCardLoading } from '../movieCard/movieCard';
@@ -14,7 +14,7 @@ const MovieList = ({ type }) => {
     return (
         <div className="w-full movie-list relative">
             {isLoading && (
-                <Swiper grabCursor={'true'} spaceBetween={50} slidesPerView={'auto'}>
+                <Swiper grabCursor={'true'} spaceBetween={20} slidesPerView={'auto'}>
                     <SwiperSlide>
                         <MovieCardLoading></MovieCardLoading>
                     </SwiperSlide>
@@ -35,7 +35,7 @@ const MovieList = ({ type }) => {
                     </SwiperSlide>
                 </Swiper>
             )}
-            <Swiper grabCursor={'true'} spaceBetween={20} slidesPerView={`auto`} fadeEffect={false}>
+            <Swiper grabCursor={'true'} spaceBetween={50} slidesPerView={`auto`} fadeEffect={false}>
                 <SlideNextButton></SlideNextButton>
                 <SlidePrevButton></SlidePrevButton>
                 {movies?.results?.length > 0 &&

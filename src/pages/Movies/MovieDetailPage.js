@@ -39,7 +39,7 @@ const MovieDetailPage = () => {
             </div>
             <div className="w-[50%] md:h-[600px] h-[350px] relative md:mx-auto bg-white overflow-hidden rounded-xl">
                 <img
-                    className=" w-full h-full object-cover"
+                    className="w-full h-full object-cover"
                     alt=""
                     src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
                 />
@@ -64,7 +64,7 @@ const MovieDetailPage = () => {
                     ))}
             </div>
             <span className="w-[80%] mx-auto text-center leading-relaxed">{movie?.overview}</span>
-            <span className="text-[25px] mx-auto font-semibold">Cast</span>
+            <span className="md:mt-0 mt-5 text-[25px] mx-auto font-semibold">Cast</span>
             <div className="flex md:flex-row flex-col md:gap-5 gap-8 lg:max-w-[1280px] md:mb-0 mb-8 h-auto mx-auto justify-center">
                 {credit?.length > 0 &&
                     credit?.map((item) => (
@@ -113,7 +113,7 @@ const MovieDetailPage = () => {
                     />
                 )}
             </div>
-            <div className="flex flex-col gap-y-10">
+            <div className="flex flex-col gap-y-10 md:mt-0 mt-8">
                 <span className="text-2xl font-semibold mx-auto">Similar Movies</span>
                 <div className="container movie-list">
                     <Swiper grabCursor={'true'} spaceBetween={50} slidesPerView={'auto'}>
