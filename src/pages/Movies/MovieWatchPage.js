@@ -1,42 +1,41 @@
 import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 
 import { tmdb } from '~/config';
 import useGetMovies from '~/hooks/useGetMovies';
 
 const MovieWatchPage = () => {
     const movieId = useParams().movieId;
-    // const [movieLink, setMovieLink] = useState('');
+    const [data, setData] = useState('');
+    console.log(data);
     const [similar, setSimilar] = useState();
 
-    // const loading = !movieLink;
     const movies = useGetMovies(tmdb.getMovieDetails(movieId));
     const similarResponse = useGetMovies(tmdb.getMovieDetails(movieId, 'similar'));
 
     useEffect(() => {
         setSimilar(similarResponse);
-        // axios
-        //     .get('https://2embed.org/embed/movie?tmdb=503017')
-        //     .then(function (response) {
-        //         setMovieLink(response);
-        //     })
-        //     .catch((err) => console.log(err));
+        axios.get('https://2embed.org/embed/movie?imdb=tt6403680').then((res) => {
+            setData(res);
+        });
     }, [similarResponse]);
 
     return (
         <>
             <div className="flex md:flex-row flex-col justify-between gap-10 container">
                 <div className="flex flex-col flex-grow text-white">
-                    <div className="relative flex w-full h-0 mb-[50%]">
-                        <iframe
-                            id="iframe"
-                            title="Hello"
-                            src={`https://www.2embed.to/embed/tmdb/movie?id=${movieId}`}
-                            className="absolute w-full h-full top-0 left-0"
-                            frameborder="0"
-                            allowFullScreen
-                        ></iframe>
+                    <div className="relative flex w-full md:h-[50%] h-[350px] flex-shrink-0">
+                        {
+                            <iframe
+                                id="iframe"
+                                title="Hello"
+                                src={`https://www.2embed.to/embed/tmdb/movie?id=${movieId}`}
+                                className="relative w-full h-full top-0 left-0"
+                                frameborder="0"
+                                allowFullScreen
+                            ></iframe>
+                        }
                     </div>
                     <div className="flex flex-col flex-shrink-0 mt-5">
                         <span className="text-white md:text-[30px] text-[35px] font-semibold">{movies?.title}</span>

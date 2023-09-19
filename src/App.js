@@ -7,13 +7,13 @@ import './App.css';
 import Main from '~/components/layout/Main';
 import Banner from './components/banner/Banner';
 import { FilmProvider } from './context/FilmContext';
-import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import NotFoundPage from './pages/NotFoundPage';
 import MovieSearchPage from './pages/Movies/MovieSearchPage';
 
-const HomePage = lazy(() => import('~/pages/Home/Home'));
+const HomePage = lazy(() => import('~/pages/Home'));
 const MoviePage = lazy(() => import('~/pages/Movies/MoviePage'));
 const MovieDetailPage = lazy(() => import('~/pages/Movies/MovieDetailPage'));
-const GenresSearchPage = lazy(() => import('~/pages/GenresSearchPage/GenresSearchPage'));
+const GenresSearchPage = lazy(() => import('~/pages/GenresSearchPage'));
 
 function App() {
     return (
