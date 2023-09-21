@@ -6,6 +6,7 @@ const SearchBar = () => {
     const navigate = useNavigate();
 
     const handleClick = () => {
+        if (filmSearchRef.current.value === '') return;
         navigate(`/movies/page=1&search=${filmSearchRef.current.value}`);
     };
 

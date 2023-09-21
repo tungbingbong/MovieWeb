@@ -2,8 +2,10 @@ import React, { Fragment, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import Genres from '~/components/genresSelector/Genres';
-// import { useFilm } from '~/context/FilmContext';
-import SearchBar from './Searchbar';
+import Modal from '../modal/Modal';
+import LoginModal from '../modal/LoginModal';
+import SearchModal from '../modal/SearchModal';
+import UserStatus from '../user/UserStatus';
 
 const list = [
     {
@@ -20,6 +22,13 @@ const list = [
 
 const Header = () => {
     const [isHovered, setIsHovered] = useState(false);
+    const [modalShow, setModalShow] = useState(false);
+    const [child, setChild] = useState('');
+
+    const handleClick = (modal) => {
+        setModalShow(true);
+        setChild(modal);
+    };
 
     return (
         <Fragment>
@@ -37,8 +46,20 @@ const Header = () => {
                         </NavLink>
                     ))}
                     <Genres isHovered={isHovered} setIsHovered={setIsHovered}></Genres>
+                    <button
+                        className="'hover:text-primary transition-all"
+                        onClick={() => handleClick(<SearchModal></SearchModal>)}
+                    >
+                        Search
+                    </button>
                 </div>
-                <SearchBar></SearchBar>
+                <UserStatus
+                    onClick={() => handleClick(<LoginModal setShow={setModalShow}></LoginModal>)}
+                    className={'relative right-0 top-0'}
+                ></UserStatus>
+                <Modal show={modalShow} setShow={setModalShow}>
+                    {child}
+                </Modal>
             </div>
         </Fragment>
     );

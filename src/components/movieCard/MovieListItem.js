@@ -21,7 +21,7 @@ const MovieListItem = ({ name, src, vote, id }) => {
                 <div className="flex flex-row justify-between text-sm absolute z-30 gap-1 top-0 left-0 w-full md:p-2">
                     <div className="flex flex-row items-center gap-x-3">
                         <span className="drop-shadow-lg bg-tags rounded-lg md:px-3 md:py-2 p-2  font-semibold text-white bg-opacity-50 flex gap-1 justify-center items-center">
-                            {vote}
+                            {Math.round(vote * 10) / 10}
                             <svg
                                 width="20"
                                 height="20"

@@ -1,7 +1,11 @@
 import React, { Fragment } from 'react';
 import MovieList from '~/components/movieList/movieList';
+import PersonalList from '~/components/movieList/PersonalList';
+import { useAuth } from '~/context/AuthContext';
 
 const HomePage = () => {
+    const userInfo = useAuth();
+
     return (
         <Fragment>
             <section className="container flex flex-col gap-y-5 text-white mb-10">
@@ -22,6 +26,14 @@ const HomePage = () => {
                 </div>
                 <MovieList type={'upcoming'}></MovieList>
             </section>
+            {userInfo && (
+                <section className="container flex flex-col gap-y-5 text-white mb-10">
+                    <div className="flex justify-between w-full">
+                        <span className="text-[20px]">History</span>
+                    </div>
+                    <PersonalList type={'history'}></PersonalList>
+                </section>
+            )}
         </Fragment>
     );
 };
