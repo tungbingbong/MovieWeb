@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useGetMovies from '~/hooks/useGetMovies';
+import useClickToggle from '~/hooks/useClickToggle';
 
 import { tmdb } from '~/config';
 
@@ -9,14 +10,21 @@ const Genres = ({ isHovered, setIsHovered }) => {
     // https://api.themoviedb.org/3/genre/movie/list?api_key=68ff44b16c8cfc514f5219295b422d75&language=en-US
     const movies = useGetMovies(tmdb.getMovieGenre())?.genres;
     const navigate = useNavigate();
+    const menuRef = useRef();
+    const { isMobile, isShow, setIsShow } = useClickToggle({ menuRef });
+
     const loading = !movies;
 
     const handleOpenGenres = (e) => {
-        setIsHovered(true);
+        if (!isMobile) {
+            setIsShow(true);
+        }
     };
 
     const handleCloseGenres = (e) => {
-        setIsHovered(false);
+        if (!isMobile) {
+            setIsShow(false);
+        }
     };
 
     return (
@@ -25,10 +33,12 @@ const Genres = ({ isHovered, setIsHovered }) => {
             onMouseEnter={handleOpenGenres}
             onMouseLeave={handleCloseGenres}
         >
-            <span className="cursor-pointer w-full h-full">Genres</span>
+            <span className="cursor-pointer w-full h-full" ref={menuRef}>
+                Genres
+            </span>
             <div
                 className={`genres-list p-5 flex flex-wrap gap-4 justify-start items-center transition-all ${
-                    isHovered ? 'translate-x-0 md:flex' : 'translate-x-full md:hidden'
+                    isShow ? 'translate-x-0 md:flex' : 'translate-x-full md:hidden'
                 } md:absolute md:left-0 md:-bottom-[20px] md:top-auto md:translate-y-full
                 z-30 md:h-[300px] bg-slate-900 md:w-[600px] fixed left-[100px] right-0 bottom-0 top-0 bg-opacity-70`}
             >

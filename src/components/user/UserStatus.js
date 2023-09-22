@@ -20,10 +20,13 @@ const UserStatus = ({ onClick, className }) => {
                     </button>
                 </span>
             ) : (
-                <div className="flex flex-row gap-5 items-center justify-between">
-                    <span className="text-white">Anonymous</span>
-                    <button className="w-[30px] h-[30px] rounded-full hover:scale-150 transition-all" onClick={onClick}>
-                        <img className="pointer-events-none" alt="" src="/default_avatar.png" />
+                <div
+                    className="flex gap-3 flex-row items-center text-white justify-center hover:text-secondary cursor-pointer hover:underline hover:scale-125 transition-all"
+                    onClick={onClick}
+                >
+                    <span className=" ">Sign In</span>
+                    <button className="w-[30px] h-[30px] rounded-full ">
+                        <img className="pointer-events-none" src="/default_avatar.png" alt="" />
                     </button>
                 </div>
             )}

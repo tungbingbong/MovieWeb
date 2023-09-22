@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 import { Link, useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { tmdb } from '~/config';
 import { db } from '~/firebase-config';
+import { useAuth } from '~/context/AuthContext';
 import useGetMovies from '~/hooks/useGetMovies';
 import { usePersonal } from '~/context/PersonalContext';
 import MovieListItem from '~/components/movieCard/MovieListItem';
@@ -15,6 +17,7 @@ const MovieDetailPage = () => {
     const [credit, setCredit] = useState([]);
     const [video, setVideo] = useState();
     const [similar, setSimilar] = useState();
+    const { userInfo } = useAuth();
 
     const response = useGetMovies(tmdb.getMovieDetails(movieId, null));
 
@@ -53,6 +56,10 @@ const MovieDetailPage = () => {
             <div className="flex flex-row gap-5 justify-center">
                 <button
                     onClick={async () => {
+                        if (!userInfo) {
+                            toast.error('You have to be signed in to use this service');
+                            return;
+                        }
                         const newArray = [...bookmarkId];
                         const index = newArray.indexOf(+movieId);
                         if (index > -1) {
@@ -93,6 +100,7 @@ const MovieDetailPage = () => {
                 to={`/movies/${movieId}/watch`}
                 className="px-6 py-3 rounded-xl hover:opacity-80 transition-all bg-primary mx-auto my-2 text-white text-xl"
                 onClick={async () => {
+                    if (!userInfo) return;
                     const newArray = [...history];
                     const index = newArray.indexOf(+movieId);
                     if (index > -1) {

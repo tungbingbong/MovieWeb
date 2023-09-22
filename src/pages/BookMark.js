@@ -144,14 +144,14 @@ const Bookmark = () => {
                 </div>
             ) : (
                 <div className="w-full flex flex-col justify-center items-center">
-                    <div className="container max-w-[1200px] mx-auto p-10 border border-white flex justify-center items-center flex-col text-white">
-                        <span className="text-[140px] leading-[140px] text-white">
-                            <span>4</span>
-                            <span className="text-primary">0</span>
-                            <span>4</span>
-                        </span>
-                        <span className="text-[60px]">SORRY, THERE'S</span>
-                        <span className="text-[60px] text-primary">NOTHING HERE</span>
+                    <div className="container max-w-[1200px] mx-auto p-10 md:border border-white flex justify-center items-center flex-col text-white relative">
+                        <div className="md:w-[300px]">
+                            <img src="/not-found.png" className="w-full" alt="" />
+                        </div>
+                        <div className=" w-full flex flex-col items-center md:gap-8 flex-shrink-0">
+                            <span className="md:text-[50px] text-2xl">SORRY, THERE'S</span>
+                            <span className="md:text-[50px] text-2xl text-primary">NOTHING HERE</span>
+                        </div>
                     </div>
                 </div>
             )}

@@ -1,30 +1,20 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import useClickToggle from '~/hooks/useClickToggle';
 
 const ProfileSideBar = () => {
-    const [isShown, setIsShown] = useState(false);
-
-    const handleOpenSidebar = () => {
-        setIsShown(true);
-    };
-
-    const handleCloseSidebar = () => {
-        setIsShown(false);
-    };
+    const menuRef = useRef();
+    const { isShow } = useClickToggle({ menuRef });
 
     return (
         <div className="">
             <div
                 className="p-4 bg-primary text-white bg-opacity-40 w-fit md:hidden fixed right-5 bottom-5"
-                onMouseOver={handleOpenSidebar}
-                onMouseLeave={handleCloseSidebar}
-                onClick={() => {
-                    setIsShown(!isShown);
-                }}
+                ref={menuRef}
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
+                    className="h-6 w-6 pointer-events-none"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -35,7 +25,7 @@ const ProfileSideBar = () => {
             </div>
             <div
                 className={`transition-all flex-col gap-3 md:w-[200px] z-[300] text-white flex md:translate-x-[0] items-start md:p-0 px-5 md:bg-transparent bg-slate-700 justify-center md:relative fixed top-0 bottom-0 left-0 w-2/3 ${
-                    isShown ? 'translate-x-0' : '-translate-x-full'
+                    isShow ? 'translate-x-0' : '-translate-x-full'
                 }`}
             >
                 <span className="text-xl font-semibold">ACCOUNT</span>
@@ -61,6 +51,28 @@ const ProfileSideBar = () => {
                             />
                         </svg>
                         General
+                    </NavLink>
+                    <NavLink
+                        className={({ isActive }) =>
+                            `hover:text-primary transition-all flex flex-row gap-3 ${isActive ? 'text-primary' : ''}`
+                        }
+                        to={'/account/password'}
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                            />
+                        </svg>
+                        Password
                     </NavLink>
                 </div>
                 <span className="text-xl font-semibold">PERSONAL</span>

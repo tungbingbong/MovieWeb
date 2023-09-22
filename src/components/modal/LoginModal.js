@@ -15,14 +15,17 @@ const LoginModal = ({ setShow }) => {
     const navigate = useNavigate();
     const onSubmit = (values) => {
         signInWithEmailAndPassword(auth, values.email, values.password)
-            .then((res) => {
+            .then(() => {
                 toast.success(`Login complete. Welcome ${auth.currentUser.displayName}`);
                 setShow(false);
                 navigate('/');
             })
             .catch((error) => {
                 if (String(error).includes('auth/user-not-found')) {
-                    toast.error('Incorrect email or password', { pauseOnHover: false });
+                    toast.error('Account not found', { pauseOnHover: false });
+                }
+                if (String(error).includes('auth/wrong-password')) {
+                    toast.error('Incorrect password. Please try again', { pauseOnHover: false });
                 }
             });
     };
