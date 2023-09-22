@@ -16,6 +16,7 @@ import SignUpPage from './pages/SignUp';
 import UserProfile from './pages/UserProfile';
 import ChangePassword from './pages/ChangePassword';
 import History from './pages/History';
+import Bookmark from './pages/BookMark';
 
 const HomePage = lazy(() => import('~/pages/Home'));
 const MoviePage = lazy(() => import('~/pages/Movies/MoviePage'));
@@ -62,6 +63,7 @@ function App() {
                                             element={<ChangePassword></ChangePassword>}
                                         ></Route>
                                         <Route path="/account/history" element={<History></History>}></Route>
+                                        <Route path="/account/bookmark" element={<Bookmark></Bookmark>}></Route>
                                     </Route>
                                 </Route>
                             </Routes>
