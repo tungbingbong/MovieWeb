@@ -173,11 +173,14 @@ const MovieDetailPage = () => {
                         allowFullScreen
                     ></iframe>
                 ) : (
-                    <img
-                        src={'https://cxl.com/wp-content/uploads/2016/04/errormessages.jpg'}
-                        className="max-w-[600px] object-cover rounded-lg mx-auto"
-                        alt=""
-                    />
+                    <div className="flex md:flex-row md:gap-10 flex-col gap-5 justify-center items-center">
+                        <div className="max-w-[300px]">
+                            <img src={'/not-found.png'} className="w-full object-cover rounded-lg mx-auto" alt="" />
+                            <span className=" md:text-[40px] text-xl md:leading-[45px]">
+                                Sorry, we could not find the trailer
+                            </span>
+                        </div>
+                    </div>
                 )}
             </div>
             <div className="flex flex-col gap-y-10 md:mt-0 mt-8">
