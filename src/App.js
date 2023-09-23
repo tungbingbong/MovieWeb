@@ -49,7 +49,7 @@ function App() {
                 dispatch(setUserInfo(''));
             }
         });
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         const arr = [];
@@ -68,7 +68,7 @@ function App() {
                 dispatch(setMoviesBookmarkData([...bookmarkArr]));
             });
         });
-    }, [history, bookmarkId]);
+    }, [history, bookmarkId, dispatch]);
 
     const userList = collection(db, 'users');
 

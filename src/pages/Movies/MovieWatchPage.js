@@ -29,7 +29,7 @@ const MovieWatchPage = () => {
                         {
                             <iframe
                                 id="iframe"
-                                title="Hello"
+                                title="iframe"
                                 src={`https://www.2embed.to/embed/tmdb/movie?id=${movieId}`}
                                 className="relative w-full h-full top-0 left-0"
                                 frameborder="0"
