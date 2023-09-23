@@ -8,15 +8,17 @@ const MovieListItem = ({ name, src, vote, id }) => {
 
     return (
         <div
-            className="w-[200px] cursor-pointer md:w-full h-[300px] md:h-auto rounded-xl overflow-hidden p-3 relative select-none"
+            className="w-[200px] cursor-pointer md:w-full h-[320px] md:h-auto rounded-xl overflow-hidden p-3 relative select-none"
             onClick={() => navigate(`/movies/${id}`)}
         >
-            <div className="z-50 relative w-full h-full flex flex-col gap-y-2 overflow-hidden">
-                <img
-                    src={`https://image.tmdb.org/t/p/w500/${src}`}
-                    alt=""
-                    className="max-w-full h-[85%] object-cover rounded-xl"
-                />
+            <div className="z-50 relative w-full h-full flex flex-col gap-y-2">
+                <div className="max-w-full h-[250px] rounded-xl">
+                    <img
+                        src={`https://image.tmdb.org/t/p/w500/${src}`}
+                        alt=""
+                        className="max-w-full h-[85%] object-cover rounded-xl"
+                    />
+                </div>
                 <span className="truncate max-w-[80%] h-[30px] mt-2">{name}</span>
                 <div className="flex flex-row justify-between text-sm absolute z-30 gap-1 top-0 left-0 w-full md:p-2">
                     <div className="flex flex-row items-center gap-x-3">
