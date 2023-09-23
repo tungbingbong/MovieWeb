@@ -1,10 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { useAuth } from '~/context/AuthContext';
+import { useSelector } from 'react-redux';
 
 const UserStatus = ({ onClick, className }) => {
-    const userInfo = useAuth();
+    const userInfo = useSelector((state) => state.auth.userInfo);
     const navigate = useNavigate();
 
     return (

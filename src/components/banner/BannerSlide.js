@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
-import { useGenre } from '~/context/GenreContext';
+import { useSelector } from 'react-redux';
 import ButtonWatch from '../button/ButtonWatch';
 import { Link, useNavigate } from 'react-router-dom';
 
 const BannerSlide = (props) => {
-    const [genre] = useGenre();
+    const genre = useSelector((state) => state.genre.genreList);
     const { name, tags, src, id, type } = props;
     const itemGenre = [];
     for (let i = 0; i < tags.length; i++) {

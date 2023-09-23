@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
+import { useSelector } from 'react-redux';
+
 import MovieList from '~/components/movieList/movieList';
 import PersonalList from '~/components/movieList/PersonalList';
-import { useAuth } from '~/context/AuthContext';
 
 const HomePage = () => {
-    const userInfo = useAuth();
+    const userInfo = useSelector((state) => state.auth.userInfo);
 
     return (
         <Fragment>

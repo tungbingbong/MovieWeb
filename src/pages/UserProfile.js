@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { updateProfile, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { doc, deleteDoc, collection, getDocs } from 'firebase/firestore';
 
-import { useAuth } from '~/context/AuthContext';
 import { auth, db } from '~/firebase-config';
 import Modal from '~/components/modal/Modal';
 import ConfirmModal from '~/components/modal/ConfirmModal';
 
 const UserProfile = () => {
-    const userInfo = useAuth();
+    const userInfo = useSelector((state) => state.auth.userInfo);
     const [displayNameEdit, setDisplayNameEdit] = useState(false);
     const [displayName, setDisplayName] = useState('');
     const [loading, setLoading] = useState(false);

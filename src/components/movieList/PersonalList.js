@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useSelector } from 'react-redux';
 
-import { usePersonal } from '~/context/PersonalContext';
 import { SlideNextButton, SlidePrevButton } from '../button/SlideButton';
 import MovieListItem, { MovieCardLoading } from '../movieCard/MovieListItem';
 
 const PersonalList = ({ type }) => {
     const [movies, setMovies] = useState();
-    const { movieHistory, moviesBookmarkData } = usePersonal();
+    const { movieHistory, moviesBookmarkData } = useSelector((state) => state.personal);
     const isLoading = !movies;
 
     useEffect(() => {

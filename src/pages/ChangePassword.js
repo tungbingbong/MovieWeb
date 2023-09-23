@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import { auth } from '~/firebase-config';
 import { toast } from 'react-toastify';
 import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from 'firebase/auth';
-
-import { useAuth } from '~/context/AuthContext';
+import { useSelector } from 'react-redux';
 
 const ChangePassword = () => {
     const [passwordEdit, setPasswordEdit] = useState(false);
     const [newPassword, setNewPassword] = useState('');
     const [oldPassword, setOldPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const userInfo = useAuth();
+    const userInfo = useSelector((state) => state.auth.userInfo);
     const handleSubmit = (e) => {
         e.preventDefault();
     };

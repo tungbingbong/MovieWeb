@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 
 import { db } from '~/firebase-config';
-import { usePersonal } from '~/context/PersonalContext';
 import MovieCard from '~/components/movieCard/movieCard';
 import CheckBox from '~/components/checkBox/CheckBox';
 
 const History = () => {
-    const { history, moviesHistory, currentId } = usePersonal();
+    const { history, moviesHistory, currentId } = useSelector((state) => state.personal);
     const [edit, setEdit] = useState(false);
     const [selected, setSelected] = useState([]);
 

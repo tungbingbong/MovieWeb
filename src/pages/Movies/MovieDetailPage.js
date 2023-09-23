@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { tmdb } from '~/config';
 import { db } from '~/firebase-config';
-import { useAuth } from '~/context/AuthContext';
 import useGetMovies from '~/hooks/useGetMovies';
-import { usePersonal } from '~/context/PersonalContext';
 import MovieListItem from '~/components/movieCard/MovieListItem';
+import { setHistory, setBookmarkId } from '~/redux/PersonalSlice/personalSlice';
 
 const MovieDetailPage = () => {
     const { movieId } = useParams();
@@ -17,11 +17,12 @@ const MovieDetailPage = () => {
     const [credit, setCredit] = useState([]);
     const [video, setVideo] = useState();
     const [similar, setSimilar] = useState();
-    const { userInfo } = useAuth();
+    const userInfo = useSelector((state) => state.auth.userInfo);
+    const dispatch = useDispatch();
 
     const response = useGetMovies(tmdb.getMovieDetails(movieId, null));
 
-    const { history, setHistory, currentId, bookmarkId, setBookmarkId } = usePersonal();
+    const { history, currentId, bookmarkId } = useSelector((state) => state.personal);
 
     const creditResponse = useGetMovies(tmdb.getMovieDetails(movieId, 'credits'));
 
@@ -64,7 +65,7 @@ const MovieDetailPage = () => {
                         const index = newArray.indexOf(+movieId);
                         if (index > -1) {
                             newArray.splice(index, 1);
-                            setBookmarkId(newArray);
+                            dispatch(setBookmarkId(newArray));
                             await updateDoc(doc(db, 'users', currentId), {
                                 bookmark: JSON.stringify([...newArray]),
                             });
@@ -74,7 +75,7 @@ const MovieDetailPage = () => {
                             newArray.pop();
                         }
                         newArray.unshift(+movieId);
-                        setBookmarkId(newArray);
+                        dispatch(setBookmarkId(newArray));
                         await updateDoc(doc(db, 'users', currentId), {
                             bookmark: JSON.stringify([...newArray]),
                         });
@@ -110,7 +111,7 @@ const MovieDetailPage = () => {
                         newArray.pop();
                     }
                     newArray.unshift(+movieId);
-                    setHistory(newArray);
+                    dispatch(setHistory(newArray));
                     await updateDoc(doc(db, 'users', currentId), {
                         history: JSON.stringify([...newArray]),
                     });
