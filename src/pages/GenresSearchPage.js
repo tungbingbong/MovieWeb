@@ -14,12 +14,7 @@ const GenresSearchPage = () => {
     const page = useParams().page;
     const type = useParams().type;
 
-    // const searchAPI = useGetMovies({
-    //     endpoint: `https://api.themoviedb.org/3/discover/movie?api_key=68ff44b16c8cfc514f5219295b422d75&with_genres=${genre}&page=${page}`,
-    // });
-
     const searchAPI = useGetMovies(tmdb.getMovieGenreList(genre, page));
-
     const loading = !searchAPI;
 
     return (
@@ -48,7 +43,7 @@ const GenresSearchPage = () => {
                                     item?.id
                                 )
                                     return (
-                                        <div className="md:w-[300px] w-[48%] flex-shrink-0" key={item.id}>
+                                        <div className="md:max-w-[240px] w-[40%] flex-shrink-0" key={item.id}>
                                             <MovieCard
                                                 name={item?.title}
                                                 src={item?.poster_path}

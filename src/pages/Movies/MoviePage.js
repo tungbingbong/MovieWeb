@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import useSWRInfinite from 'swr/infinite';
 import { useParams } from 'react-router-dom';
 import { v4 } from 'uuid';
-import { tmdb } from '~/config';
 
+import { tmdb, fetcher } from '~/config';
 import MovieCard, { MovieCardLoading } from '~/components/movieCard/movieCard';
-import Pagination from '~/components/pagination/Pagination';
-import useGetMovies from '~/hooks/useGetMovies';
 
 const MoviePage = () => {
     const page = useParams().page;
-    const movies = useGetMovies(tmdb.getMovieList('popular', page));
+    const [url] = useState(tmdb.getMovieList('popular', page));
+    const { data, size, setSize } = useSWRInfinite((index) => url.replace('page=1', `page=${index + 1}`), fetcher);
+    const movies = data ? data.reduce((a, b) => a.concat(b.results), []) : [];
+    const isEmpty = data?.[0]?.results.length === 0;
+    const isReachingEnd = isEmpty || (data && data[data.length - 1]?.results.length < 20);
     const loading = !movies;
 
     return (
@@ -25,8 +28,8 @@ const MoviePage = () => {
             ) : (
                 <>
                     <div className="w-full h-auto text-white flex flex-wrap flex-row gap-y-7 gap-x-7 justify-center">
-                        {movies?.results?.length > 0 &&
-                            movies?.results?.map((item) => (
+                        {movies?.length > 0 &&
+                            movies.map((item) => (
                                 <div className="w-[300px]" key={item.id}>
                                     <MovieCard
                                         name={item.title || item.name}
@@ -39,7 +42,20 @@ const MoviePage = () => {
                                 </div>
                             ))}
                     </div>
-                    <Pagination page={page} searchAPI={movies}></Pagination>
+                    <button
+                        className={`text-white bg-primary hover:opacity-80 transition-all mx-auto mt-10 block px-4 py-3 rounded-lg ${
+                            isReachingEnd ? 'opacity-50 pointer-events-none' : ''
+                        }`}
+                        onClick={() => {
+                            if (isReachingEnd) {
+                                return null;
+                            } else {
+                                setSize(size + 1);
+                            }
+                        }}
+                    >
+                        Load More
+                    </button>
                 </>
             )}
         </>

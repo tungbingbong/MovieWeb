@@ -1,15 +1,20 @@
 /* eslint-disable array-callback-return */
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
 import { v4 } from 'uuid';
+import useSWRInfinite from 'swr/infinite';
+import { useParams } from 'react-router-dom';
 
-import { tmdb } from '~/config';
+import { tmdb, fetcher } from '~/config';
 import useGetMovies from '~/hooks/useGetMovies';
 import MovieCard, { MovieCardLoading } from '~/components/movieCard/movieCard';
-import Pagination from '~/components/pagination/Pagination';
 
 const MovieSearchPage = () => {
     const movieName = useParams().movieName;
+    const [url] = useState(tmdb.getMovieSearchPage(movieName));
+    const { data, size, setSize } = useSWRInfinite((index) => url.replace('page=1', `page=${index + 1}`), fetcher);
+    const movies = data ? data.reduce((a, b) => a.concat(b.results), []) : [];
+    const isEmpty = data?.[0]?.results.length === 0;
+    const isReachingEnd = isEmpty || (data && data[data.length - 1]?.results.length < 20);
     const page = useParams().page;
 
     const searchAPI = useGetMovies({
@@ -28,11 +33,11 @@ const MovieSearchPage = () => {
                         </div>
                     ))}
                 </div>
-            ) : searchAPI?.results?.length > 0 ? (
+            ) : movies.length > 0 ? (
                 <>
                     <div className="w-full h-auto text-white flex flex-wrap flex-row md:gap-7 gap-3 justify-center">
-                        {searchAPI?.length > 0 &&
-                            searchAPI?.map((item) => {
+                        {movies.length > 0 &&
+                            movies.map((item) => {
                                 if (
                                     item?.title &&
                                     item?.poster_path &&
@@ -55,7 +60,20 @@ const MovieSearchPage = () => {
                                 }
                             })}
                     </div>
-                    <Pagination searchAPI={searchAPI} page={page}></Pagination>
+                    <button
+                        className={`text-white bg-primary hover:opacity-80 transition-all mx-auto mt-10 block px-4 py-3 rounded-lg ${
+                            isReachingEnd ? 'opacity-50 pointer-events-none' : ''
+                        }`}
+                        onClick={() => {
+                            if (isReachingEnd) {
+                                return null;
+                            } else {
+                                setSize(size + 1);
+                            }
+                        }}
+                    >
+                        Load more
+                    </button>
                 </>
             ) : (
                 <span className="text-white text-2xl text-center mt-10 block">
