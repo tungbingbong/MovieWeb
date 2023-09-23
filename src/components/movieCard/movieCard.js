@@ -14,7 +14,7 @@ const MovieCard = ({ name, src, vote, release, id }) => {
             onClick={() => navigate(`/movies/${id}`)}
         >
             <div className="z-50 relative w-full h-full flex flex-col gap-y-2 overflow-hidden">
-                <div className="max-w-full h-[300px] rounded-xl">
+                <div className="max-w-full h-[300px] md:h-[85%] rounded-xl">
                     <img
                         src={`https://image.tmdb.org/t/p/w500/${src}`}
                         alt=""

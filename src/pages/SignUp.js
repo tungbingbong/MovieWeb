@@ -60,7 +60,7 @@ const SignUpPage = () => {
     }, [errors]);
 
     return (
-        <div className="flex flex-col container px-10">
+        <div className="flex flex-col container px-10 items-center lg:items-start">
             <div className="flex flex-col z-40">
                 <span className="text-subText text-[24px] mb-2 font-semibold">START FOR FREE</span>
                 <span className="text-white font-semibold text-[45px] mb-4">
