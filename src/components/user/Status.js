@@ -47,7 +47,7 @@ const Status = ({ onClick, className }) => {
                 </span>
             ) : (
                 <div
-                    className="flex flex-row gap-5 items-center text-white justify-between hover:text-secondary cursor-pointer hover:underline hover:scale-125 transition-all"
+                    className="flex gap-3 flex-row items-center text-white justify-center hover:text-secondary cursor-pointer hover:underline hover:scale-125 transition-all"
                     onClick={onClick}
                 >
                     <span className=" ">Sign In</span>
