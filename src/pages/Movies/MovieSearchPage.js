@@ -46,7 +46,7 @@ const MovieSearchPage = () => {
                                     item?.id
                                 ) {
                                     return (
-                                        <div className="md:w-[300px] w-[45%] flex-shrink-0" key={item.id}>
+                                        <div className="md:w-[250px] w-[48%] flex-shrink-0" key={item.id}>
                                             <MovieCard
                                                 name={item?.title}
                                                 src={item?.poster_path}

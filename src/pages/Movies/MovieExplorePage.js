@@ -30,7 +30,7 @@ const MovieExplorePage = () => {
                     <div className="w-full h-auto text-white flex flex-wrap flex-row gap-y-7 gap-x-7 justify-center">
                         {movies?.length > 0 &&
                             movies.map((item) => (
-                                <div className="w-[300px]" key={item.id}>
+                                <div className="md:w-[250px] w-[48%] flex-shrink-0" key={item.id}>
                                     <MovieCard
                                         name={item.title || item.name}
                                         src={item.poster_path}
