@@ -1,24 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { v4 } from 'uuid';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { tmdbSeries } from '~/config';
 import useGetMovies from '~/hooks/useGetMovies';
-import MovieCard, { MovieCardLoading } from '~/components/movieCard/movieCard';
+import { setType } from '~/redux/TypeSlice/typeSlice';
 import Pagination from '~/components/pagination/Pagination';
+import MovieCard, { MovieCardLoading } from '~/components/movieCard/movieCard';
 
-const GenresSearchPage = () => {
-    // https://api.themoviedb.org/3/discover/movie?api_key=68ff44b16c8cfc514f5219295b422d75&with_genres=28
+const SeriesGenreSearch = () => {
     const genre = useParams().genre;
+    const dispatch = useDispatch();
     const page = useParams().page;
     const type = useParams().type;
-
     const searchAPI = useGetMovies(tmdbSeries.getSeriesGenreList(genre, page));
     const loading = !searchAPI;
-
+    useEffect(() => {
+        dispatch(setType('Series'));
+    }, []);
     return (
-        <div className="">
+        <>
             {loading ? (
                 <div className="w-full h-auto text-white flex flex-wrap flex-row gap-y-7 gap-x-7 justify-center">
                     {new Array(20).fill(0).map(() => (
@@ -59,8 +63,8 @@ const GenresSearchPage = () => {
             ) : (
                 <span className="text-white text-2xl text-center mt-10 block">There is no result for {genre}</span>
             )}
-        </div>
+        </>
     );
 };
 
-export default GenresSearchPage;
+export default SeriesGenreSearch;

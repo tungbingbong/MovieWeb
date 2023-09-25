@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 
-import MovieCard from '~/components/movieCard/movieCard';
-import CheckBox from '~/components/checkBox/CheckBox';
 import { db } from '~/firebase-config';
+import CheckBox from '~/components/checkBox/CheckBox';
+import PersonalMovieCard from '~/components/movieCard/PersonalMovieCard';
 
 const Bookmark = () => {
-    const { bookmarkId, moviesBookmarkData, currentId } = useSelector((state) => state.personal);
+    const { bookmarkId, currentId } = useSelector((state) => state.personal);
     const [edit, setEdit] = useState(false);
     const [selected, setSelected] = useState([]);
 
@@ -49,6 +49,7 @@ const Bookmark = () => {
                             }`}
                             disabled={!selected.length > 0}
                             onClick={async () => {
+                                if (!selected.length > 0) return;
                                 const result = bookmarkId.filter((item) => {
                                     return !selected.includes(item);
                                 });
@@ -126,16 +127,16 @@ const Bookmark = () => {
 
             {bookmarkId?.length > 0 ? (
                 <div className="w-full flex flex-row flex-wrap gap-5 justify-center">
-                    {moviesBookmarkData.length > 0 &&
-                        moviesBookmarkData.map((item) => (
+                    {bookmarkId.length > 0 &&
+                        bookmarkId.map((item) => (
                             <div className="md:w-[250px] w-[45%] flex-shrink-0" key={item.id}>
-                                <MovieCard
+                                <PersonalMovieCard
                                     name={item.title || item.name}
                                     src={item.poster_path}
                                     vote={item.vote_average}
                                     release={item.release_date || item.first_air_date}
                                     id={item.id}
-                                ></MovieCard>
+                                ></PersonalMovieCard>
                                 {edit && (
                                     <CheckBox id={item.id} selected={selected} setSelected={setSelected}></CheckBox>
                                 )}

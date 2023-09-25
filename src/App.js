@@ -8,7 +8,7 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import { useSelector, useDispatch } from 'react-redux';
 
 import './App.css';
-import { tmdb } from './config';
+import { tmdb, flexible } from './config';
 import Main from '~/components/layout/Main';
 import { auth, db } from './firebase-config';
 import Banner from './components/banner/Banner';
@@ -21,9 +21,14 @@ import {
     setMoviesBookmarkData,
     setMoviesHistory,
 } from './redux/PersonalSlice/personalSlice';
+import SeriesBanner from './components/banner/SeriesBanner';
+import SeriesSearchPage from './pages/Series/SeriesSearchPage';
+import SeriesWatchPage from './pages/Series/SeriesWatchPage';
+import { setGenreList } from './redux/GenreSlice/genreSlice';
 
 import NotFoundPage from './pages/NotFoundPage';
 import MovieSearchPage from './pages/Movies/MovieSearchPage';
+import MovieWatchPage from './pages/Movies/MovieWatchPage';
 import SignUpPage from './pages/SignUp';
 import UserProfile from './pages/UserProfile';
 import ChangePassword from './pages/ChangePassword';
@@ -31,15 +36,18 @@ import History from './pages/History';
 import Bookmark from './pages/BookMark';
 
 const HomePage = lazy(() => import('~/pages/Home'));
-const MoviePage = lazy(() => import('~/pages/Movies/MoviePage'));
+const ExplorePage = lazy(() => import('~/pages/ExplorePage'));
 const MovieDetailPage = lazy(() => import('~/pages/Movies/MovieDetailPage'));
-const GenresSearchPage = lazy(() => import('~/pages/GenresSearchPage'));
+const MoviesGenreSearch = lazy(() => import('~/pages/Movies/MovieGenreSearch'));
+const SeriesDetailPage = lazy(() => import('~/pages/Series/SeriesDetailPage'));
+const SeriesGenreSearch = lazy(() => import('~/pages/Series/SeriesGenreSearch'));
 
 // https://api.themoviedb.org/3/movie/now_playing?api_key=68ff44b16c8cfc514f5219295b422d75&language=en-US&page=1
 
 function App() {
     const dispatch = useDispatch();
     const { history, bookmarkId } = useSelector((state) => state.personal);
+    const currentType = useSelector((state) => state.type);
 
     useEffect(() => {
         onAuthStateChanged(auth, (currentUser) => {
@@ -56,14 +64,13 @@ function App() {
         const bookmarkArr = [];
 
         history.forEach((item) => {
-            axios.get(tmdb.getMovieDetails(item, null)).then((res) => {
+            axios.get(flexible.getDetails(item.type, item.id)).then((res) => {
                 arr.push(res.data);
                 dispatch(setMoviesHistory([...arr]));
             });
         });
-
         bookmarkId.forEach((item) => {
-            axios.get(tmdb.getMovieDetails(item, null)).then((res) => {
+            axios.get(flexible.getDetails(item.type, item.id)).then((res) => {
                 bookmarkArr.push(res.data);
                 dispatch(setMoviesBookmarkData([...bookmarkArr]));
             });
@@ -89,6 +96,12 @@ function App() {
         });
     }, []);
 
+    useEffect(() => {
+        axios
+            .get(tmdb.getTypeGenre(currentType === 'Movies' ? 'movie' : 'tv'))
+            .then((res) => dispatch(setGenreList(res.data.genres)));
+    }, [currentType]);
+
     return (
         <Fragment>
             <Suspense>
@@ -99,17 +112,28 @@ function App() {
                             path="/"
                             element={
                                 <Fragment>
-                                    <Banner></Banner>
+                                    {currentType === 'Movies' ? <Banner></Banner> : <SeriesBanner></SeriesBanner>}
                                     <HomePage></HomePage>
                                 </Fragment>
                             }
                         ></Route>
-                        <Route path="/movies&page=:page" element={<MoviePage></MoviePage>}></Route>
+                        <Route path="/explore&page=:page" element={<ExplorePage></ExplorePage>}></Route>
                         <Route path="/movies/:movieId" element={<MovieDetailPage></MovieDetailPage>}></Route>
+                        <Route path="/series/:movieId" element={<SeriesDetailPage></SeriesDetailPage>}></Route>
+                        <Route path="/movies/:movieId/watch" element={<MovieWatchPage></MovieWatchPage>}></Route>
+                        <Route
+                            path="/series/:movieId/watch&season=:season&ep=:ep"
+                            element={<SeriesWatchPage></SeriesWatchPage>}
+                        ></Route>
                         <Route path="/movies/search=:movieName" element={<MovieSearchPage></MovieSearchPage>}></Route>
+                        <Route path="/series/search=:movieName" element={<SeriesSearchPage></SeriesSearchPage>}></Route>
                         <Route
                             path="/movies/page=:page&searchGenre=:genre&type=:type"
-                            element={<GenresSearchPage></GenresSearchPage>}
+                            element={<MoviesGenreSearch></MoviesGenreSearch>}
+                        ></Route>
+                        <Route
+                            path="/series/page=:page&searchGenre=:genre&type=:type"
+                            element={<SeriesGenreSearch></SeriesGenreSearch>}
                         ></Route>
                         <Route path="/signup" element={<SignUpPage></SignUpPage>}></Route>
                         <Route path="/account" element={<ProfilePageMain></ProfilePageMain>}>

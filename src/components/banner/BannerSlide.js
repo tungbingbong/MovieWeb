@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const BannerSlide = (props) => {
     const genre = useSelector((state) => state.genre.genreList);
+    const currentType = useSelector((state) => state.type);
     const { name, tags, src, id, type } = props;
     const itemGenre = [];
     for (let i = 0; i < tags.length; i++) {
@@ -17,7 +18,8 @@ const BannerSlide = (props) => {
             }
         });
     }
-    const handleButtonClick = useNavigate();
+    const navigate = useNavigate();
+
     return (
         <Fragment>
             <div className="overlay absolute inset-0 bg-gradient-to-t from-[rgba(0, 0, 0, 0.5)] to-[rgba(0,0,0,0)] rounded-xl z-[100] pointer-events-none"></div>
@@ -41,7 +43,7 @@ const BannerSlide = (props) => {
                         ))}
                 </div>
                 <ButtonWatch
-                    onClick={() => handleButtonClick(`/movies/${id}`)}
+                    onClick={() => navigate(`${currentType === 'Movies' ? `/movies/${id}` : `/series/${id}`}`)}
                     bgColor="primary"
                     className="p-3 w-[120px] rounded-lg"
                 >

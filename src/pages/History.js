@@ -3,7 +3,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 
 import { db } from '~/firebase-config';
-import MovieCard from '~/components/movieCard/movieCard';
+import PersonalMovieCard from '~/components/movieCard/PersonalMovieCard';
 import CheckBox from '~/components/checkBox/CheckBox';
 
 const History = () => {
@@ -20,7 +20,7 @@ const History = () => {
                         <button
                             className="flex flex-row gap-2 hover:text-white transition-all"
                             onClick={() => {
-                                if (selected.length === history.length) {
+                                if (selected.length === moviesHistory.length) {
                                     setSelected([]);
                                     return;
                                 }
@@ -49,6 +49,7 @@ const History = () => {
                             }`}
                             disabled={!selected.length > 0}
                             onClick={async () => {
+                                if (!selected.length > 0) return;
                                 const result = history.filter((item) => {
                                     return !selected.includes(item);
                                 });
@@ -125,18 +126,18 @@ const History = () => {
             </div>
             {history.length > 0 ? (
                 <div className="w-full flex flex-row flex-wrap gap-5 justify-center">
-                    {moviesHistory.length > 0 &&
-                        moviesHistory.map((item) => (
-                            <div className="md:w-[250px] w-[45%] flex-shrink-0" key={item.id}>
-                                <MovieCard
+                    {history.length > 0 &&
+                        history.map((item) => (
+                            <div className="md:w-[200px] flex-shrink-0" key={item.id}>
+                                <PersonalMovieCard
                                     name={item.title || item.name}
                                     src={item.poster_path}
                                     vote={item.vote_average}
                                     release={item.release_date || item.first_air_date}
                                     id={item.id}
-                                ></MovieCard>
+                                ></PersonalMovieCard>
                                 {edit && (
-                                    <CheckBox id={item.id} selected={selected} setSelected={setSelected}></CheckBox>
+                                    <CheckBox listItem={item} selected={selected} setSelected={setSelected}></CheckBox>
                                 )}
                             </div>
                         ))}

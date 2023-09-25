@@ -1,36 +1,68 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { flexible } from '~/config';
 
+import ButtonWatch from '../button/ButtonWatch';
 import LoadingSkeleton from '~/loading/LoadingSkeleton';
 
-const MovieListItem = ({ name, src, vote, id }) => {
+const PersonalMovieCard = ({ id, type }) => {
+    const [result, setResult] = useState({
+        name: '',
+        src: '',
+        vote: '',
+        release: '',
+        id: '',
+    });
     const navigate = useNavigate();
-    const currentType = useSelector((state) => state.type);
+    const navigationIfType = () => {
+        if (type === 'movie') {
+            navigate(`/movies/${id}}`);
+        } else {
+            navigate(`/series/${id}`);
+        }
+    };
+
+    useEffect(() => {
+        axios.get(flexible.getDetails(type, id)).then((res) => {
+            setResult({
+                ...result,
+                name: res.data.name || res.data.title,
+                src: `https://image.tmdb.org/t/p/w500${res.data.poster_path}`,
+                vote: Math.round(res.data.vote_average * 10) / 10,
+                release: new Date(res.data.first_air_date || res.data.release_date).getFullYear(),
+                id,
+            });
+        });
+    }, []);
 
     return (
         <div
-            className="cursor-pointer w-full h-[320px] md:h-[400px] rounded-xl overflow-hidden p-3 relative select-none"
-            onClick={() => navigate(`${currentType === 'Movies' ? `/movies/${id}` : `/series/${id}`}`)}
+            className="max-w-[200px] md:max-w-full h-[400px] md:h-auto rounded-xl overflow-hidden p-3 relative select-none md:hover:scale-110 transition-all cursor-pointer"
+            onClick={navigationIfType}
         >
-            <div className="z-50 relative w-full h-full flex flex-col gap-y-2">
-                <div className="max-w-full h-[250px] rounded-xl">
+            <div className="z-50 relative w-full h-full flex flex-col gap-y-2 overflow-hidden">
+                <div className="max-w-full h-[300px] rounded-xl">
                     <img
-                        src={`https://image.tmdb.org/t/p/w500/${src}`}
+                        className="w-full h-full object-cover rounded-xl"
+                        src={`https://image.tmdb.org/t/p/w500/${result.src}`}
                         alt=""
-                        className="max-w-full h-[85%] object-cover rounded-xl"
                     />
                 </div>
-                <span className="truncate max-w-[80%] h-[30px] mt-2">{name}</span>
+                <span className="truncate max-w-[80%] h-[30px] mt-2">{result.name}</span>
                 <div className="flex flex-row justify-between text-sm absolute z-30 gap-1 top-0 left-0 w-full md:p-2">
+                    <span className="drop-shadow-lg bg-tags p-2 rounded-lg md:px-4 md:py-2 font-semibold text-white bg-opacity-50">
+                        {result.release}
+                    </span>
                     <div className="flex flex-row items-center gap-x-3">
                         <span className="drop-shadow-lg bg-tags rounded-lg md:px-3 md:py-2 p-2  font-semibold text-white bg-opacity-50 flex gap-1 justify-center items-center">
-                            {Math.round(vote * 10) / 10}
+                            {result.vote}
                             <svg
                                 width="20"
                                 height="20"
                                 viewBox="0 0 16 15"
-                                fill="white"
+                                fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="inline"
                             >
@@ -43,37 +75,47 @@ const MovieListItem = ({ name, src, vote, id }) => {
                                         3.63059 13.4477L5.01525 9.18612C5.06211 9.04191 5.01078 8.88393 4.88811 8.7948L1.26301 
                                         6.16102C0.988711 5.96173 1.12968 5.52786 1.46874 5.52786H5.9496C6.10123 5.52786 6.23561 
                                         5.43023 6.28247 5.28602L7.66713 1.02447Z"
+                                    stroke="#FFB86C"
+                                    strokeWidth="1.5"
                                 />
                             </svg>
                         </span>
                     </div>
                 </div>
+                <ButtonWatch
+                    className="text-lg flex justify-center items-center px-4 py-2 mt-auto relative bottom-0 rounded-xl"
+                    onClick={navigationIfType}
+                    bgColor={'secondary'}
+                >
+                    Watch Now
+                </ButtonWatch>
             </div>
             <div className="absolute inset-0 p-3">
                 <img
-                    src={`https://image.tmdb.org/t/p/w500/${src}`}
+                    className="w-full h-full object-cover rounded-xl"
+                    src={`https://image.tmdb.org/t/p/w500/${result.src}`}
                     alt=""
-                    className="w-full h-full object-cover rounded-xl hidden md:block"
                 />
-                <div className="layer absolute inset-0 md:backdrop-blur-md rounded-xl bg-[#000000] bg-opacity-40"></div>
+                <div className="layer absolute inset-0 backdrop-blur-md rounded-xl bg-[#000000] bg-opacity-40"></div>
             </div>
         </div>
     );
 };
 
-export default MovieListItem;
+export default PersonalMovieCard;
 
 export const MovieCardLoading = () => {
     return (
         <div className="w-full h-[500px] rounded-xl overflow-hidden p-3 relative select-none">
             <div className="z-20 relative w-full h-full flex flex-col gap-y-2">
                 <LoadingSkeleton className="w-full h-[70%] object-cover rounded-xl"></LoadingSkeleton>
-                <LoadingSkeleton className="w-full h-[20px]"></LoadingSkeleton>
+                <LoadingSkeleton className="w-full h-[20px] "></LoadingSkeleton>
                 <div className="flex flex-row justify-between text-sm mt-auto">
                     <LoadingSkeleton className="w-[50px] h-[20px]"></LoadingSkeleton>
                     <div className="flex flex-row items-center gap-x-3">
                         <LoadingSkeleton className="w-[30px] h-[20px]"></LoadingSkeleton>
                         <LoadingSkeleton className="w-[30px] h-[20px]"></LoadingSkeleton>
+
                         <svg
                             width="20"
                             height="20"
@@ -97,6 +139,7 @@ export const MovieCardLoading = () => {
                         </svg>
                     </div>
                 </div>
+
                 <LoadingSkeleton className="w-full h-[50px] mt-auto relative bottom-0 rounded-xl"></LoadingSkeleton>
             </div>
         </div>

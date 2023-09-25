@@ -1,24 +1,22 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import LoadingSkeleton from '~/loading/LoadingSkeleton';
 
-const MovieListItem = ({ name, src, vote, id }) => {
+const PersonalListItem = ({ name, src, vote, release, id, type }) => {
     const navigate = useNavigate();
-    const currentType = useSelector((state) => state.type);
 
     return (
         <div
             className="cursor-pointer w-full h-[320px] md:h-[400px] rounded-xl overflow-hidden p-3 relative select-none"
-            onClick={() => navigate(`${currentType === 'Movies' ? `/movies/${id}` : `/series/${id}`}`)}
+            onClick={() => navigate(`${type === undefined ? `/movies/${id}` : `/series/${id}`}`)}
         >
             <div className="z-50 relative w-full h-full flex flex-col gap-y-2">
-                <div className="max-w-full h-[250px] rounded-xl">
+                <div className="max-w-full h-[250px] md:h-[85%] rounded-xl">
                     <img
+                        className="w-full h-full object-cover rounded-xl"
                         src={`https://image.tmdb.org/t/p/w500/${src}`}
                         alt=""
-                        className="max-w-full h-[85%] object-cover rounded-xl"
                     />
                 </div>
                 <span className="truncate max-w-[80%] h-[30px] mt-2">{name}</span>
@@ -36,13 +34,13 @@ const MovieListItem = ({ name, src, vote, id }) => {
                             >
                                 <path
                                     d="M7.66713 1.02447C7.7719 0.702008 8.2281 0.702009 8.33287 1.02447L9.71753 5.28602C9.76439 
-                                        5.43023 9.89877 5.52786 10.0504 5.52786H14.5313C14.8703 5.52786 15.0113 5.96173 14.737 
-                                        6.16102L11.1119 8.7948C10.9892 8.88393 10.9379 9.04191 10.9847 9.18612L12.3694 
-                                        13.4477C12.4742 13.7701 12.1051 14.0383 11.8308 13.839L8.20572 11.2052C8.08305
-                                        11.1161 7.91695 11.1161 7.79428 11.2052L4.16918 13.839C3.89488 14.0383 3.52581 13.7701 
-                                        3.63059 13.4477L5.01525 9.18612C5.06211 9.04191 5.01078 8.88393 4.88811 8.7948L1.26301 
-                                        6.16102C0.988711 5.96173 1.12968 5.52786 1.46874 5.52786H5.9496C6.10123 5.52786 6.23561 
-                                        5.43023 6.28247 5.28602L7.66713 1.02447Z"
+                                    5.43023 9.89877 5.52786 10.0504 5.52786H14.5313C14.8703 5.52786 15.0113 5.96173 14.737 
+                                    6.16102L11.1119 8.7948C10.9892 8.88393 10.9379 9.04191 10.9847 9.18612L12.3694 
+                                    13.4477C12.4742 13.7701 12.1051 14.0383 11.8308 13.839L8.20572 11.2052C8.08305
+                                    11.1161 7.91695 11.1161 7.79428 11.2052L4.16918 13.839C3.89488 14.0383 3.52581 13.7701 
+                                    3.63059 13.4477L5.01525 9.18612C5.06211 9.04191 5.01078 8.88393 4.88811 8.7948L1.26301 
+                                    6.16102C0.988711 5.96173 1.12968 5.52786 1.46874 5.52786H5.9496C6.10123 5.52786 6.23561 
+                                    5.43023 6.28247 5.28602L7.66713 1.02447Z"
                                 />
                             </svg>
                         </span>
@@ -61,19 +59,20 @@ const MovieListItem = ({ name, src, vote, id }) => {
     );
 };
 
-export default MovieListItem;
+export default PersonalListItem;
 
 export const MovieCardLoading = () => {
     return (
         <div className="w-full h-[500px] rounded-xl overflow-hidden p-3 relative select-none">
             <div className="z-20 relative w-full h-full flex flex-col gap-y-2">
                 <LoadingSkeleton className="w-full h-[70%] object-cover rounded-xl"></LoadingSkeleton>
-                <LoadingSkeleton className="w-full h-[20px]"></LoadingSkeleton>
+                <LoadingSkeleton className="w-full h-[20px] "></LoadingSkeleton>
                 <div className="flex flex-row justify-between text-sm mt-auto">
-                    <LoadingSkeleton className="w-[50px] h-[20px]"></LoadingSkeleton>
+                    <LoadingSkeleton className="w-[50px] h-[20px] "></LoadingSkeleton>
                     <div className="flex flex-row items-center gap-x-3">
-                        <LoadingSkeleton className="w-[30px] h-[20px]"></LoadingSkeleton>
-                        <LoadingSkeleton className="w-[30px] h-[20px]"></LoadingSkeleton>
+                        <LoadingSkeleton className="w-[30px] h-[20px] "></LoadingSkeleton>
+                        <LoadingSkeleton className="w-[30px] h-[20px] "></LoadingSkeleton>
+
                         <svg
                             width="20"
                             height="20"

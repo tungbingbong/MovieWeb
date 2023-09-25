@@ -1,13 +1,21 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const SearchBar = () => {
     const filmSearchRef = useRef();
     const navigate = useNavigate();
+    const currentType = useSelector((state) => state.type);
 
     const handleClick = () => {
         if (filmSearchRef.current.value === '') return;
-        navigate(`/movies/search=${filmSearchRef.current.value}`);
+        navigate(
+            `${
+                currentType === 'Movies'
+                    ? `/movies/search=${filmSearchRef.current.value}`
+                    : `/series/search=${filmSearchRef.current.value}`
+            }`,
+        );
     };
 
     return (

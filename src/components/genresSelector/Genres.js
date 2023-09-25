@@ -1,19 +1,19 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useGetMovies from '~/hooks/useGetMovies';
-import useClickToggle from '~/hooks/useClickToggle';
+import { useSelector } from 'react-redux';
 
-import { tmdb } from '~/config';
+import useClickToggle from '~/hooks/useClickToggle';
 
 const Genres = ({ isHovered, setIsHovered }) => {
     // https://api.themoviedb.org/3/discover/movie?api_key=68ff44b16c8cfc514f5219295b422d75&with_genres=28
     // https://api.themoviedb.org/3/genre/movie/list?api_key=68ff44b16c8cfc514f5219295b422d75&language=en-US
-    const movies = useGetMovies(tmdb.getMovieGenre())?.genres;
+    const genres = useSelector((state) => state.genre.genreList);
+    const currentType = useSelector((state) => state.type);
     const navigate = useNavigate();
     const menuRef = useRef();
     const { isMobile, isShow, setIsShow } = useClickToggle({ menuRef });
 
-    const loading = !movies;
+    const loading = !genres;
 
     const handleOpenGenres = (e) => {
         if (!isMobile) {
@@ -45,14 +45,20 @@ const Genres = ({ isHovered, setIsHovered }) => {
                 {loading && (
                     <div className="w-10 h-10 rounded-full border-8 border-r-8 border-secondary border-r-transparent animate-spin genre-list"></div>
                 )}
-                {movies?.length > 0 &&
-                    movies.map((item) => (
+                {genres?.length > 0 &&
+                    genres.map((item) => (
                         <div
                             key={item.id}
                             className="w-auto mx-5 cursor-pointer hover:text-primary text-white transition-all"
                             onClick={() => {
                                 setIsHovered(false);
-                                navigate(`/movies/page=1&searchGenre=${item.id}&type=${item.name}`);
+                                navigate(
+                                    `${
+                                        currentType === 'Movies'
+                                            ? `/movies/page=1&searchGenre=${item.id}&type=${item.name}`
+                                            : `/series/page=1&searchGenre=${item.id}&type=${item.name}`
+                                    }`,
+                                );
                             }}
                         >
                             {item.name}

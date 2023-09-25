@@ -5,7 +5,7 @@ import Genres from '~/components/genresSelector/Genres';
 import Modal from '../modal/Modal';
 import LoginModal from '../modal/LoginModal';
 import SearchModal from '../modal/SearchModal';
-import UserStatus from '../user/UserStatus';
+import Status from '../user/Status';
 
 const list = [
     {
@@ -16,7 +16,7 @@ const list = [
     {
         id: 2,
         title: 'Explore',
-        to: '/movies&page=1',
+        to: '/explore&page=1',
     },
 ];
 
@@ -53,10 +53,10 @@ const Header = () => {
                         Search
                     </button>
                 </div>
-                <UserStatus
+                <Status
                     onClick={() => handleClick(<LoginModal setShow={setModalShow}></LoginModal>)}
-                    className={'relative right-0 top-0'}
-                ></UserStatus>
+                    className={'relative right-0 top-0 flex flex-row md:gap-4 gap-3 mt-10 md:mt-0'}
+                ></Status>
                 <Modal show={modalShow} setShow={setModalShow}>
                     {child}
                 </Modal>

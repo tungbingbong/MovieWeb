@@ -1,28 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useSelector } from 'react-redux';
 
+import { tmdbSeries } from '~/config';
+import useGetMovies from '~/hooks/useGetMovies';
 import { SlideNextButton, SlidePrevButton } from '../button/SlideButton';
-import { MovieCardLoading } from '../movieCard/MovieListItem';
-import PersonalListItem from '../movieCard/PersonalListItem';
+import { MovieCardLoading } from '../movieCard/movieCard';
+import MovieListItem from '../movieCard/MovieListItem';
 
-const PersonalList = ({ type }) => {
-    const [movies, setMovies] = useState();
-    const { movieHistory, moviesBookmarkData } = useSelector((state) => state.personal);
-    const isLoading = !movies;
-
-    useEffect(() => {
-        if (type === 'history') {
-            setMovies(movieHistory);
-        } else if (type === 'bookmark') {
-            setMovies(moviesBookmarkData);
-        }
-    }, [movieHistory, moviesBookmarkData, type]);
+const SeriesList = ({ type }) => {
+    const movies = useGetMovies(tmdbSeries.getSeriesList(type));
+    const isLoading = !movies || movies.length < 1;
 
     return (
         <div className="w-full movie-list relative">
             {isLoading && (
-                <Swiper grabCursor={'true'} spaceBetween={15} slidesPerView={'auto'}>
+                <Swiper grabCursor={'true'} spaceBetween={50} slidesPerView={'auto'}>
                     <SwiperSlide>
                         <MovieCardLoading></MovieCardLoading>
                     </SwiperSlide>
@@ -46,16 +38,16 @@ const PersonalList = ({ type }) => {
             <Swiper grabCursor={'true'} spaceBetween={20} slidesPerView={'auto'} fadeEffect={false}>
                 <SlideNextButton></SlideNextButton>
                 <SlidePrevButton></SlidePrevButton>
-                {movies?.length > 0 &&
-                    movies?.map((item) => (
+                {movies?.results?.length > 0 &&
+                    movies.results.map((item) => (
                         <SwiperSlide key={item.id}>
-                            <PersonalListItem
+                            <MovieListItem
                                 name={item.title || item.name}
                                 src={item.poster_path}
                                 vote={item.vote_average}
                                 release={item.release_date || item.first_air_date}
                                 id={item.id}
-                            ></PersonalListItem>
+                            ></MovieListItem>
                         </SwiperSlide>
                     ))}
             </Swiper>
@@ -63,4 +55,4 @@ const PersonalList = ({ type }) => {
     );
 };
 
-export default PersonalList;
+export default SeriesList;

@@ -6,7 +6,7 @@ import { v4 } from 'uuid';
 import { tmdb, fetcher } from '~/config';
 import MovieCard, { MovieCardLoading } from '~/components/movieCard/movieCard';
 
-const MoviePage = () => {
+const MovieExplorePage = () => {
     const page = useParams().page;
     const [url] = useState(tmdb.getMovieList('popular', page));
     const { data, size, setSize } = useSWRInfinite((index) => url.replace('page=1', `page=${index + 1}`), fetcher);
@@ -62,4 +62,4 @@ const MoviePage = () => {
     );
 };
 
-export default MoviePage;
+export default MovieExplorePage;
