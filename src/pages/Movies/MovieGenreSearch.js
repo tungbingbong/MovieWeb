@@ -11,18 +11,16 @@ import { setType } from '~/redux/TypeSlice/typeSlice';
 import Pagination from '~/components/pagination/Pagination';
 import MovieCard, { MovieCardLoading } from '~/components/movieCard/movieCard';
 
-const MovieGenreSearch = () => {
+const MoviesGenreSearch = () => {
     const genre = useParams().genre;
     const page = useParams().page;
     const type = useParams().type;
     const searchAPI = useGetMovies(tmdb.getMovieGenreList(genre, page));
     const loading = !searchAPI;
     const dispatch = useDispatch();
-
     useEffect(() => {
         dispatch(setType('Movies'));
     }, []);
-
     return (
         <>
             <span className="text-white text-center text-xl block mb-5">
@@ -30,7 +28,7 @@ const MovieGenreSearch = () => {
             </span>
             {loading ? (
                 <div className="w-full h-auto text-white flex flex-wrap flex-row gap-y-7 gap-x-7 justify-center">
-                    {new Array(20).fill(0).map((item) => (
+                    {new Array(20).fill(0).map(() => (
                         <div className="md:w-[300px] w-[45%] flex-shrink-0" key={v4()}>
                             <MovieCardLoading></MovieCardLoading>
                         </div>
@@ -62,6 +60,7 @@ const MovieGenreSearch = () => {
                                     );
                             })}
                     </div>
+
                     <Pagination type={{ id: genre, name: type }} searchAPI={searchAPI} page={page}></Pagination>
                 </>
             ) : (
@@ -71,4 +70,4 @@ const MovieGenreSearch = () => {
     );
 };
 
-export default MovieGenreSearch;
+export default MoviesGenreSearch;

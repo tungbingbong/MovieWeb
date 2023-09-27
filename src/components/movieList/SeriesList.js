@@ -10,7 +10,6 @@ import MovieListItem from '../movieCard/MovieListItem';
 const SeriesList = ({ type }) => {
     const movies = useGetMovies(tmdbSeries.getSeriesList(type));
     const isLoading = !movies || movies.length < 1;
-
     return (
         <div className="w-full movie-list relative">
             {isLoading && (

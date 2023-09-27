@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
+/* eslint-disable react-hooks/exhaustive-deps */
 import { toast } from 'react-toastify';
-import { useSelector, useDispatch } from 'react-redux';
+import { doc, updateDoc } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { tmdb } from '~/config';
 import { db } from '~/firebase-config';
 import useGetMovies from '~/hooks/useGetMovies';
+import { setType } from '~/redux/TypeSlice/typeSlice';
 import MovieListItem from '~/components/movieCard/MovieListItem';
 import { setHistory, setBookmarkId } from '~/redux/PersonalSlice/personalSlice';
 
@@ -17,40 +19,36 @@ const MovieDetailPage = () => {
     const [credit, setCredit] = useState([]);
     const [video, setVideo] = useState();
     const [similar, setSimilar] = useState();
-    const userInfo = useSelector((state) => state.auth.userInfo);
-    const dispatch = useDispatch();
-
     const response = useGetMovies(tmdb.getMovieDetails(movieId, null));
-
     const { history, currentId, bookmarkId } = useSelector((state) => state.personal);
-
     const creditResponse = useGetMovies(tmdb.getMovieDetails(movieId, 'credits'));
-
     const videoResponse = useGetMovies(tmdb.getMovieDetails(movieId, 'videos'));
-
     const similarResponse = useGetMovies(tmdb.getMovieDetails(movieId, 'similar'));
-
+    const userInfo = useSelector((state) => state.auth.userInfo);
     useEffect(() => {
         setMovie(response);
         setCredit(creditResponse?.cast?.slice(0, 5));
         setVideo(videoResponse);
         setSimilar(similarResponse);
+        dispatch(setType('Movies'));
     }, [response, creditResponse, videoResponse, similarResponse]);
-
+    const dispatch = useDispatch();
+    const movieItem = { id: +movieId, type: 'movie' };
+    const isMarked = Boolean(bookmarkId.filter((item) => JSON.stringify(item) === JSON.stringify(movieItem)).length);
     return (
         <div className="flex flex-col gap-5 text-white pb-10">
             <div className="h-[500px] w-full top-0 left-[50%] -translate-x-2/4 absolute -z-10">
                 <img
+                    src={`https://image.tmdb.org/t/p/original${movie?.backdrop_path}`}
                     className="opacity-20 w-full h-full object-cover"
                     alt=""
-                    src={`https://image.tmdb.org/t/p/original${movie?.backdrop_path}`}
                 />
             </div>
             <div className="w-[50%] md:h-[600px] h-[350px] relative md:mx-auto bg-white overflow-hidden rounded-xl">
                 <img
-                    className="w-full h-full object-cover"
-                    alt=""
                     src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
+                    className=" w-full h-full object-cover"
+                    alt=""
                 />
             </div>
             <span className="md:text-[30px] text-[25px] mx-auto font-semibold">{movie?.title}</span>
@@ -61,10 +59,18 @@ const MovieDetailPage = () => {
                             toast.error('You have to be signed in to use this service');
                             return;
                         }
-                        const newArray = [...bookmarkId];
-                        const index = newArray.indexOf(+movieId);
-                        if (index > -1) {
-                            newArray.splice(index, 1);
+                        let newArray = [...bookmarkId];
+                        // const index = newArray.indexOf({id: +movieId, type: 'movie'});
+                        // if (index > -1) {
+                        //   newArray.splice(index, 1);
+                        //   dispatch(setBookmarkId(newArray));
+                        //   await updateDoc(doc(db, "users", currentId), {
+                        //     bookmark: JSON.stringify([...newArray]),
+                        //   });
+                        //   return;
+                        // }
+                        if (isMarked) {
+                            newArray = newArray.filter((item) => JSON.stringify(item) !== JSON.stringify(movieItem));
                             dispatch(setBookmarkId(newArray));
                             await updateDoc(doc(db, 'users', currentId), {
                                 bookmark: JSON.stringify([...newArray]),
@@ -74,7 +80,7 @@ const MovieDetailPage = () => {
                         if (newArray.length >= 20) {
                             newArray.pop();
                         }
-                        newArray.unshift(+movieId);
+                        newArray.unshift(movieItem);
                         dispatch(setBookmarkId(newArray));
                         await updateDoc(doc(db, 'users', currentId), {
                             bookmark: JSON.stringify([...newArray]),
@@ -84,9 +90,9 @@ const MovieDetailPage = () => {
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-10 w-10"
-                        fill={bookmarkId.includes(+movieId) ? 'red' : 'none'}
+                        fill={isMarked ? 'red' : 'none'}
                         viewBox="0 0 24 24"
-                        stroke={bookmarkId.includes(+movieId) ? 'none' : 'currentColor'}
+                        stroke={isMarked ? 'none' : 'currentColor'}
                         strokeWidth={1}
                     >
                         <path
@@ -96,35 +102,33 @@ const MovieDetailPage = () => {
                         />
                     </svg>
                 </button>
+                <Link
+                    to={`/movies/${movieId}/watch`}
+                    className="px-6 py-3 rounded-xl hover:opacity-80 transition-all bg-primary my-2 text-white text-xl"
+                    onClick={async () => {
+                        if (!userInfo) return;
+                        let newArray = [...history];
+                        newArray = newArray.filter((item) => JSON.stringify(item) !== JSON.stringify(movieItem));
+                        if (newArray.length >= 20) {
+                            newArray.pop();
+                        }
+                        newArray.unshift(movieItem);
+                        dispatch(setHistory(newArray));
+                        await updateDoc(doc(db, 'users', currentId), {
+                            history: JSON.stringify([...newArray]),
+                        });
+                    }}
+                >
+                    Watch Now
+                </Link>
             </div>
-            <Link
-                to={`/movies/${movieId}/watch`}
-                className="px-6 py-3 rounded-xl hover:opacity-80 transition-all bg-primary mx-auto my-2 text-white text-xl"
-                onClick={async () => {
-                    if (!userInfo) return;
-                    const newArray = [...history];
-                    const index = newArray.indexOf(+movieId);
-                    if (index > -1) {
-                        newArray.splice(index, 1);
-                    }
-                    if (newArray.length >= 20) {
-                        newArray.pop();
-                    }
-                    newArray.unshift(+movieId);
-                    dispatch(setHistory(newArray));
-                    await updateDoc(doc(db, 'users', currentId), {
-                        history: JSON.stringify([...newArray]),
-                    });
-                }}
-            >
-                Watch Now
-            </Link>
+
             <div className="flex flex-row justify-center flex-wrap md:gap-x-10 gap-5">
                 {movie?.genres?.length > 0 &&
                     movie?.genres?.map((item) => (
                         <Link
-                            key={movie?.genres?.indexOf(item)}
                             to={`/movies/page=1&searchGenre=${item.id}&type=${item.name}`}
+                            key={movie?.genres?.indexOf(item)}
                             className="border border-tags rounded-xl text-tags flex justify-center items-center p-2 hover:text-white hover:bg-tags transition-all"
                         >
                             {item.name}
@@ -140,8 +144,8 @@ const MovieDetailPage = () => {
                             className="md:w-[15%] flex md:flex-col flex-row gap-5 md:text-center justify-start"
                             key={item.id}
                         >
-                            {item.profile_path && (
-                                <div className="md:w-full w-[80px] md:h-[250px] md:border-white md:border h-[80px] md:rounded-lg rounded-full overflow-hidden">
+                            <div className="md:w-full w-[80px] md:h-[250px] md:border-white md:border h-[80px] md:rounded-lg rounded-full overflow-hidden">
+                                {item.profile_path && (
                                     <img
                                         src={
                                             item.profile_path
@@ -151,8 +155,8 @@ const MovieDetailPage = () => {
                                         className="w-full md:h-[250px] md:object-cover md:rounded-lg object-contain object-center"
                                         alt=""
                                     />
-                                </div>
-                            )}
+                                )}
+                            </div>
                             <div className="flex flex-col ">
                                 <span className="text-[20px]">{item.name}</span>
                                 as
@@ -175,12 +179,12 @@ const MovieDetailPage = () => {
                     ></iframe>
                 ) : (
                     <div className="flex md:flex-row md:gap-10 flex-col gap-5 justify-center items-center">
-                        <div className="max-w-[300px]">
+                        <div className="max-w-[300px] ">
                             <img src={'/not-found.png'} className="w-full object-cover rounded-lg mx-auto" alt="" />
-                            <span className=" md:text-[40px] text-xl md:leading-[45px]">
-                                Sorry, we could not find the trailer
-                            </span>
                         </div>
+                        <span className=" md:text-[40px] text-xl md:leading-[45px]">
+                            Sorry, we could not find the trailer
+                        </span>
                     </div>
                 )}
             </div>
@@ -198,6 +202,7 @@ const MovieDetailPage = () => {
                                         release={item.release_date || item.first_air_date}
                                         id={item.id}
                                         item={item}
+                                        type={item.seasons}
                                     ></MovieListItem>
                                 </SwiperSlide>
                             ))}

@@ -1,32 +1,27 @@
-import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
-
+import { useNavigate } from 'react-router-dom';
 import useClickToggle from '~/hooks/useClickToggle';
 
 const Genres = ({ isHovered, setIsHovered }) => {
-    // https://api.themoviedb.org/3/discover/movie?api_key=68ff44b16c8cfc514f5219295b422d75&with_genres=28
-    // https://api.themoviedb.org/3/genre/movie/list?api_key=68ff44b16c8cfc514f5219295b422d75&language=en-US
     const genres = useSelector((state) => state.genre.genreList);
-    const currentType = useSelector((state) => state.type);
+    const { currentType } = useSelector((state) => state.type);
     const navigate = useNavigate();
     const menuRef = useRef();
     const { isMobile, isShow, setIsShow } = useClickToggle({ menuRef });
 
     const loading = !genres;
-
-    const handleOpenGenres = (e) => {
+    const handleOpenGenres = () => {
         if (!isMobile) {
             setIsShow(true);
         }
     };
-
-    const handleCloseGenres = (e) => {
+    const handleCloseGenres = () => {
         if (!isMobile) {
             setIsShow(false);
         }
     };
-
     return (
         <div
             className="hover:text-primary transition-all relative"
@@ -40,10 +35,13 @@ const Genres = ({ isHovered, setIsHovered }) => {
                 className={`genres-list p-5 flex flex-wrap gap-4 justify-start items-center transition-all ${
                     isShow ? 'translate-x-0 md:flex' : 'translate-x-full md:hidden'
                 } md:absolute md:left-0 md:-bottom-[20px] md:top-auto md:translate-y-full
-                z-30 md:h-[300px] bg-slate-900 md:w-[600px] fixed left-[100px] right-0 bottom-0 top-0 bg-opacity-70`}
+         z-30 md:h-[300px] bg-slate-900 md:w-[600px] fixed left-[100px] right-0 bottom-0 top-0 bg-opacity-70`}
             >
                 {loading && (
-                    <div className="w-10 h-10 rounded-full border-8 border-r-8 border-secondary border-r-transparent animate-spin genre-list"></div>
+                    <div
+                        className="w-10 h-10 rounded-full border-8 border-r-8 
+          border-secondary border-r-transparent animate-spin genre-list"
+                    ></div>
                 )}
                 {genres?.length > 0 &&
                     genres.map((item) => (

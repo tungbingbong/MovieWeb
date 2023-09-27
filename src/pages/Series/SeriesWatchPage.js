@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -22,7 +23,7 @@ const SeriesWatchPage = () => {
     useEffect(() => {
         setSimilar(similarResponse);
         dispatch(setType('Series'));
-    }, [similarResponse, dispatch]);
+    }, [similarResponse]);
     return (
         <>
             <div className="flex flex-col justify-between gap-10 container ">

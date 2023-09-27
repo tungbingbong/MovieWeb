@@ -10,7 +10,6 @@ module.exports = {
                 subText: '#757781',
                 subButton: '#555b69',
             },
-            fontFamily: { primary: 'Poppins, Arial, Tahoma, PingFangSC, sans-serif' },
         },
     },
     plugins: [],

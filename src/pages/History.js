@@ -10,7 +10,6 @@ const History = () => {
     const { history, moviesHistory, currentId } = useSelector((state) => state.personal);
     const [edit, setEdit] = useState(false);
     const [selected, setSelected] = useState([]);
-
     return (
         <div className="w-full mb-10 text-white">
             <h1 className="text-[40px] font-semibold block mb-5 w-full text-center items-center">HISTORY</h1>
@@ -41,7 +40,7 @@ const History = () => {
                                     d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
                                 />
                             </svg>
-                            Select All
+                            Select all
                         </button>
                         <button
                             className={`flex flex-row gap-2 hover:text-white transition-all ${
@@ -101,9 +100,8 @@ const History = () => {
                     </div>
                 ) : (
                     <button
-                        className={`relative ml-auto flex flex-row justify-end gap-2 mb-5 text-subText text-xl hover:text-white transition-all ${
-                            history.length > 0 ? '' : 'hidden'
-                        }`}
+                        className={`relative ml-auto flex flex-row justify-end gap-2 mb-5
+         text-subText text-xl hover:text-white transition-all ${history.length > 0 ? '' : 'hidden'}`}
                         onClick={() => setEdit(true)}
                     >
                         <svg
@@ -124,18 +122,13 @@ const History = () => {
                     </button>
                 )}
             </div>
-            {history.length > 0 ? (
+
+            {history?.length > 0 ? (
                 <div className="w-full flex flex-row flex-wrap gap-5 justify-center">
                     {history.length > 0 &&
                         history.map((item) => (
                             <div className="md:w-[200px] flex-shrink-0" key={item.id}>
-                                <PersonalMovieCard
-                                    name={item.title || item.name}
-                                    src={item.poster_path}
-                                    vote={item.vote_average}
-                                    release={item.release_date || item.first_air_date}
-                                    id={item.id}
-                                ></PersonalMovieCard>
+                                <PersonalMovieCard id={item.id} type={item.type}></PersonalMovieCard>
                                 {edit && (
                                     <CheckBox listItem={item} selected={selected} setSelected={setSelected}></CheckBox>
                                 )}
@@ -146,7 +139,7 @@ const History = () => {
                 <div className="w-full flex flex-col justify-center items-center">
                     <div
                         className="container max-w-[1200px] mx-auto p-10 md:border border-white
-                   flex justify-center items-center flex-col text-white relative"
+               flex justify-center items-center flex-col text-white relative"
                     >
                         <div className="md:w-[300px]">
                             <img src="/not-found.png" className="w-full" alt="" />

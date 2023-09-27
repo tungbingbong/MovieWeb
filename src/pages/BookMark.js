@@ -11,6 +11,12 @@ const Bookmark = () => {
     const [edit, setEdit] = useState(false);
     const [selected, setSelected] = useState([]);
 
+    const result = bookmarkId.filter((item) => {
+        return !selected.includes(item);
+    });
+
+    console.log(result);
+
     return (
         <div className="w-full mb-10 text-white">
             <h1 className="text-[40px] font-semibold block mb-5 w-full text-center items-center">BOOKMARKED MOVIES</h1>
@@ -101,9 +107,8 @@ const Bookmark = () => {
                     </div>
                 ) : (
                     <button
-                        className={`relative ml-auto flex flex-row justify-end gap-2 mb-5 text-subText text-xl hover:text-white transition-all ${
-                            bookmarkId.length > 0 ? '' : 'hidden'
-                        }`}
+                        className={`relative ml-auto flex flex-row justify-end gap-2 mb-5
+         text-subText text-xl hover:text-white transition-all ${bookmarkId.length > 0 ? '' : 'hidden'}`}
                         onClick={() => setEdit(true)}
                     >
                         <svg
@@ -130,13 +135,7 @@ const Bookmark = () => {
                     {bookmarkId.length > 0 &&
                         bookmarkId.map((item) => (
                             <div className="md:w-[250px] w-[45%] flex-shrink-0" key={item.id}>
-                                <PersonalMovieCard
-                                    name={item.title || item.name}
-                                    src={item.poster_path}
-                                    vote={item.vote_average}
-                                    release={item.release_date || item.first_air_date}
-                                    id={item.id}
-                                ></PersonalMovieCard>
+                                <PersonalMovieCard id={item.id} type={item.type}></PersonalMovieCard>
                                 {edit && (
                                     <CheckBox id={item.id} selected={selected} setSelected={setSelected}></CheckBox>
                                 )}
@@ -145,7 +144,10 @@ const Bookmark = () => {
                 </div>
             ) : (
                 <div className="w-full flex flex-col justify-center items-center">
-                    <div className="container max-w-[1200px] mx-auto p-10 md:border border-white flex justify-center items-center flex-col text-white relative">
+                    <div
+                        className="container max-w-[1200px] mx-auto p-10 md:border border-white
+          flex justify-center items-center flex-col text-white relative"
+                    >
                         <div className="md:w-[300px]">
                             <img src="/not-found.png" className="w-full" alt="" />
                         </div>

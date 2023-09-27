@@ -5,8 +5,7 @@ import MoviesExplorePage from './Movies/MovieExplorePage';
 import SeriesExplorePage from './Series/SeriesExplorePage';
 
 const ExplorePage = () => {
-    const currentType = useSelector((state) => state.type);
-
+    const { currentType } = useSelector((state) => state.type);
     return (
         <>
             {currentType === 'Movies' ? (

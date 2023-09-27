@@ -4,8 +4,7 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 const PaginationLink = ({ item, type }) => {
-    const currentType = useSelector((state) => state.type);
-
+    const { currentType } = useSelector((state) => state.type);
     return (
         <NavLink
             key={v4()}
@@ -18,11 +17,8 @@ const PaginationLink = ({ item, type }) => {
                     ? `/movies&page=${item}`
                     : `/series&page=${item}`
             }
-            className={({ isActive }) =>
-                `w-auto h-8 p-2 flex justify-center items-center bg-slate-700 hover:scale-150 transition-all mx-1 hover:rounded-lg ${
-                    isActive ? 'scale-150 rounded-lg' : ''
-                }`
-            }
+            className={({ isActive }) => `w-auto h-8 p-2 flex justify-center items-center bg-slate-700 hover:scale-150
+              transition-all mx-1 hover:rounded-lg ${isActive ? 'scale-150 rounded-lg' : ''}`}
         >
             {item}
         </NavLink>

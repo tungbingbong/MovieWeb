@@ -3,11 +3,10 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
 @layer base {
     body {
         font-family: 'Poppins', sans-serif;
-        background-color: rgb(15 23 42);
+        @apply bg-slate-900;
         padding: 35px;
         margin: 0;
     }
@@ -16,7 +15,7 @@
 @layer components {
     .container {
         max-width: 1280px;
-        margin: auto;
+        @apply mx-auto;
     }
 
     .movie-list .swiper-slide {

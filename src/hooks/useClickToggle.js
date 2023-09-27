@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const useClickToggle = ({ menuRef }) => {
     const [isShow, setIsShow] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
-
     function windowClick(e) {
         if (e.target === menuRef.current) {
             setIsShow((x) => !x);
@@ -13,7 +12,6 @@ const useClickToggle = ({ menuRef }) => {
             setIsShow(false);
         }
     }
-
     useEffect(() => {
         setIsMobile(window.innerWidth < 768);
         window.addEventListener('click', windowClick);
@@ -21,7 +19,6 @@ const useClickToggle = ({ menuRef }) => {
             window.removeEventListener('click', windowClick);
         };
     }, []);
-
     return { isMobile, isShow, setIsShow };
 };
 

@@ -42,8 +42,9 @@ const SeriesExplorePage = () => {
                             ))}
                     </div>
                     <button
-                        className={`text-white bg-primary hover:opacity-80 transition-all mx-auto mt-10 
-          block px-4 py-3 rounded-lg ${isReachingEnd ? 'opacity-50 pointer-events-none' : ''}`}
+                        className={`text-white bg-primary hover:opacity-80 transition-all mx-auto mt-10 block px-4 py-3 rounded-lg ${
+                            isReachingEnd ? 'opacity-50 pointer-events-none' : ''
+                        }`}
                         onClick={() => {
                             if (isReachingEnd) {
                                 return null;

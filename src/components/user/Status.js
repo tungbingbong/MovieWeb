@@ -6,12 +6,11 @@ import { setType } from '~/redux/TypeSlice/typeSlice';
 const Status = ({ onClick, className }) => {
     const userInfo = useSelector((state) => state.auth.userInfo);
     const navigate = useNavigate();
-    const currentType = useSelector((state) => state.type);
+    const { currentType } = useSelector((state) => state.type);
     const dispatch = useDispatch();
-
     return (
         <div className={className}>
-            <div className="flex gap-3">
+            <div className="flex gap-3 items-center">
                 <span
                     className={`${
                         currentType === 'Series' ? 'text-white' : 'text-subText'
@@ -39,8 +38,8 @@ const Status = ({ onClick, className }) => {
                 <span className="text-white">
                     Welcome
                     <button
-                        className="text-secondary hover:underline ml-2"
                         onClick={() => navigate('/account/general')}
+                        className="text-secondary hover:underline ml-2"
                     >
                         {userInfo.displayName}
                     </button>

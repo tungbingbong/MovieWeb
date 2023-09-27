@@ -9,15 +9,17 @@ const ChangePassword = () => {
     const [newPassword, setNewPassword] = useState('');
     const [oldPassword, setOldPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const userInfo = useSelector((state) => state.auth.userInfo);
+
     const handleSubmit = (e) => {
         e.preventDefault();
     };
 
+    const userInfo = useSelector((state) => state.auth.userInfo);
+
     return (
         <div className="w-full mb-10 text-white">
             <h1 className="text-[40px] font-semibold block mb-10 w-full text-center">PASSWORD</h1>
-            <h3 className="text-[25px] mb-2">User Password</h3>
+            <h3 className="text-[25px] mb-2 ">User Password</h3>
             <p className="mb-5">
                 Here you can change your current password. <br />
                 If you are signing in with Google or Facebook, you can't change your password.
@@ -29,7 +31,7 @@ const ChangePassword = () => {
                             id="oldPass"
                             className="w-[300px] rounded-lg bg-slate-600 px-4 py-2"
                             type="password"
-                            placeholder={'Your NEW password'}
+                            placeholder={'Your OLD password'}
                             onChange={(e) => {
                                 setOldPassword(e.target.value);
                             }}
@@ -38,7 +40,7 @@ const ChangePassword = () => {
                             id="newPass"
                             className="w-[300px] rounded-lg bg-slate-600 px-4 py-2"
                             type="password"
-                            placeholder={'Your OLD password'}
+                            placeholder={'Your NEW password'}
                             onChange={(e) => {
                                 setNewPassword(e.target.value);
                             }}
@@ -62,8 +64,8 @@ const ChangePassword = () => {
                                     const result = await reauthenticateWithCredential(auth.currentUser, credential);
                                     console.log(result);
                                     updatePassword(auth.currentUser, newPassword)
-                                        .then((res) => {
-                                            toast.success('Update successfully');
+                                        .then(() => {
+                                            toast.success('Update successfully.');
                                         })
                                         .catch((err) => {
                                             console.log(err.code);

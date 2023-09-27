@@ -1,19 +1,19 @@
-import React from 'react';
+import { React } from 'react';
 import { useSwiper } from 'swiper/react';
 
-export function SlideNextButton() {
+export function SlideNextButton({ className }) {
     const swiper = useSwiper();
 
     return (
         <button
+            onClick={() => swiper.slideNext()}
             className={
                 'text-xl justify-center items-center right-5 absolute top-2/4 z-40 -translate-y-2/4 hidden md:flex'
             }
-            onClick={() => swiper.slideNext()}
         >
             <svg
-                className="h-20 w-20 text-[30px] hover:text-primary transition-all"
                 xmlns="http://www.w3.org/2000/svg"
+                className="h-20 w-20 text-[30px] hover:text-primary transition-all"
                 viewBox="0 0 20 20"
                 fill="currentColor"
             >
@@ -32,14 +32,14 @@ export function SlidePrevButton() {
 
     return (
         <button
+            onClick={() => swiper.slidePrev()}
             className={
                 'text-xl justify-center items-center left-5 absolute top-2/4 z-40 -translate-y-2/4 hidden md:flex'
             }
-            onClick={() => swiper.slidePrev()}
         >
             <svg
-                className="h-20 w-20 text-[30px] hover:text-primary transition-all"
                 xmlns="http://www.w3.org/2000/svg"
+                className="h-20 w-20 text-[30px] hover:text-primary transition-all"
                 viewBox="0 0 20 20"
                 fill="currentColor"
             >

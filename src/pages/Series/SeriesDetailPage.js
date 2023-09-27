@@ -14,21 +14,18 @@ import { setType } from '~/redux/TypeSlice/typeSlice';
 import { setHistory, setBookmarkId } from '~/redux/PersonalSlice/personalSlice';
 
 const SeriesDetailPage = () => {
-    const { movieId } = useParams;
+    const { movieId } = useParams();
     const [movie, setMovie] = useState({});
     const [credit, setCredit] = useState([]);
     const [video, setVideo] = useState();
     const [similar, setSimilar] = useState();
-
     const response = useGetMovies(tmdbSeries.getSeriesDetails(movieId, null));
     const { history, currentId, bookmarkId } = useSelector((state) => state.personal);
     const creditResponse = useGetMovies(tmdbSeries.getSeriesDetails(movieId, 'credits'));
     const videoResponse = useGetMovies(tmdbSeries.getSeriesDetails(movieId, 'videos'));
     const similarResponse = useGetMovies(tmdbSeries.getSeriesDetails(movieId, 'similar'));
-
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state.auth.userInfo);
-
     useEffect(() => {
         setMovie(response);
         setCredit(creditResponse?.cast?.slice(0, 5));
@@ -39,23 +36,21 @@ const SeriesDetailPage = () => {
     useEffect(() => {
         dispatch(setType('Series'));
     }, []);
-
     const seriesItem = { id: +movieId, type: 'tv' };
     const isMarked = Boolean(bookmarkId.filter((item) => JSON.stringify(item) === JSON.stringify(seriesItem)).length);
-
     return (
         <div className="flex flex-col gap-5 text-white pb-10">
             <div className="h-[500px] w-full top-0 left-[50%] -translate-x-2/4 absolute -z-10">
                 <img
-                    className="opacity-20 w-full h-full object-cover"
                     src={`https://image.tmdb.org/t/p/original${movie?.backdrop_path}`}
+                    className="opacity-20 w-full h-full object-cover"
                     alt=""
                 />
             </div>
             <div className="w-[50%] md:h-[600px] h-[350px] relative md:mx-auto bg-white overflow-hidden rounded-xl">
                 <img
-                    className=" w-full h-full object-cover"
                     src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
+                    className=" w-full h-full object-cover"
                     alt=""
                 />
             </div>
@@ -121,6 +116,7 @@ const SeriesDetailPage = () => {
                     Watch Now
                 </Link>
             </div>
+
             <div className="flex flex-row justify-center flex-wrap md:gap-x-10 gap-5">
                 {movie?.genres?.length > 0 &&
                     movie?.genres?.map((item) => (

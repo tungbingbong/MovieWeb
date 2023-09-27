@@ -5,7 +5,6 @@ import useSWRInfinite from 'swr/infinite';
 import { useParams } from 'react-router-dom';
 
 import { tmdb, fetcher } from '~/config';
-import useGetMovies from '~/hooks/useGetMovies';
 import MovieCard, { MovieCardLoading } from '~/components/movieCard/movieCard';
 
 const MovieSearchPage = () => {
@@ -15,29 +14,23 @@ const MovieSearchPage = () => {
     const movies = data ? data.reduce((a, b) => a.concat(b.results), []) : [];
     const isEmpty = data?.[0]?.results.length === 0;
     const isReachingEnd = isEmpty || (data && data[data.length - 1]?.results.length < 20);
-    const page = useParams().page;
-
-    const searchAPI = useGetMovies({
-        endpoint: tmdb.getMovieSearchPage(movieName, page),
-    });
-
-    const loading = !searchAPI;
+    const loading = !movies;
 
     return (
         <div className="">
             {loading ? (
                 <div className="w-full h-auto text-white flex flex-wrap flex-row md:gap-7 gap-3 justify-center">
-                    {new Array(20).fill(0).map(() => (
-                        <div key={v4()} className="md:w-[300px] w-[45%] flex-shrink-0">
+                    {new Array(20).fill(0).map((item) => (
+                        <div className="md:w-[300px] w-[45%] flex-shrink-0" key={v4()}>
                             <MovieCardLoading></MovieCardLoading>
                         </div>
                     ))}
                 </div>
-            ) : movies.length > 0 ? (
+            ) : movies?.length > 0 ? (
                 <>
                     <div className="w-full h-auto text-white flex flex-wrap flex-row md:gap-7 gap-3 justify-center">
-                        {movies.length > 0 &&
-                            movies.map((item) => {
+                        {movies?.length > 0 &&
+                            movies?.map((item) => {
                                 if (
                                     item?.title &&
                                     item?.poster_path &&
@@ -60,10 +53,10 @@ const MovieSearchPage = () => {
                                 }
                             })}
                     </div>
+
                     <button
-                        className={`text-white bg-primary hover:opacity-80 transition-all mx-auto mt-10 block px-4 py-3 rounded-lg ${
-                            isReachingEnd ? 'opacity-50 pointer-events-none' : ''
-                        }`}
+                        className={`text-white bg-primary hover:opacity-80 transition-all mx-auto mt-10 
+            block px-4 py-3 rounded-lg ${isReachingEnd ? 'opacity-50 pointer-events-none' : ''}`}
                         onClick={() => {
                             if (isReachingEnd) {
                                 return null;

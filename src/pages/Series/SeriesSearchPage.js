@@ -15,11 +15,9 @@ const SeriesSearchPage = () => {
     const movieName = useParams().movieName;
     const [url] = useState(tmdbSeries.getSeriesSearchPage(movieName));
     const { data, size, setSize } = useSWRInfinite((index) => url.replace('page=1', `page=${index + 1}`), fetcher);
-
     useEffect(() => {
         dispatch(setType('Series'));
     }, []);
-
     const series = data ? data.reduce((a, b) => a.concat(b.results), []) : [];
     const isEmpty = data?.[0]?.results?.length === 0;
     const isReachingEnd = isEmpty || (data && data[data?.length - 1]?.results?.length < 20);
@@ -29,7 +27,7 @@ const SeriesSearchPage = () => {
         <div className="">
             {loading ? (
                 <div className="w-full h-auto text-white flex flex-wrap flex-row md:gap-7 gap-3 justify-center">
-                    {new Array(20).fill(0).map((item) => (
+                    {new Array(20).fill(0).map(() => (
                         <div className="md:w-[300px] w-[45%] flex-shrink-0" key={v4()}>
                             <MovieCardLoading></MovieCardLoading>
                         </div>

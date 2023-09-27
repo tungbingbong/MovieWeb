@@ -8,17 +8,15 @@ import PersonalListItem from '../movieCard/PersonalListItem';
 
 const PersonalList = ({ type }) => {
     const [movies, setMovies] = useState();
-    const { movieHistory, moviesBookmarkData } = useSelector((state) => state.personal);
+    const { moviesHistory, moviesBookmarkData } = useSelector((state) => state.personal);
     const isLoading = !movies;
-
     useEffect(() => {
         if (type === 'history') {
-            setMovies(movieHistory);
+            setMovies(moviesHistory);
         } else if (type === 'bookmark') {
             setMovies(moviesBookmarkData);
         }
-    }, [movieHistory, moviesBookmarkData, type]);
-
+    }, [moviesHistory, moviesBookmarkData, type]);
     return (
         <div className="w-full movie-list relative">
             {isLoading && (
@@ -43,7 +41,7 @@ const PersonalList = ({ type }) => {
                     </SwiperSlide>
                 </Swiper>
             )}
-            <Swiper grabCursor={'true'} spaceBetween={20} slidesPerView={'auto'} fadeEffect={false}>
+            <Swiper grabCursor={'true'} spaceBetween={20} slidesPerView={`auto`}>
                 <SlideNextButton></SlideNextButton>
                 <SlidePrevButton></SlidePrevButton>
                 {movies?.length > 0 &&
@@ -55,6 +53,7 @@ const PersonalList = ({ type }) => {
                                 vote={item.vote_average}
                                 release={item.release_date || item.first_air_date}
                                 id={item.id}
+                                type={item.seasons}
                             ></PersonalListItem>
                         </SwiperSlide>
                     ))}

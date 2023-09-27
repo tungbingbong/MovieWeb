@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 const initialState = {
     genreList: [
         { id: 28, name: 'Action' },
@@ -23,7 +22,6 @@ const initialState = {
         { id: 37, name: 'Western' },
     ],
 };
-
 const genreSlice = createSlice({
     name: 'genre',
     initialState,

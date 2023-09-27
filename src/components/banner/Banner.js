@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { fetcher, tmdb } from '~/config';
-import useSWR from 'swr';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/scss';
+import useSWR from 'swr';
+import React, { useEffect, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 import BannerSlide from './BannerSlide';
-import { SlidePrevButton, SlideNextButton } from '../button/SlideButton';
+import { fetcher, tmdb } from '~/config';
+import { SlideNextButton, SlidePrevButton } from '../button/SlideButton';
 
 const Banner = () => {
     const [banners, setBanners] = useState([]);
@@ -15,9 +15,8 @@ const Banner = () => {
             setBanners(data);
         }
     }, [data]);
-
     return (
-        <section className="banner h-[500px] container rounded-xl relative mb-20 selection-none">
+        <section className="banner h-[500px] container rounded-xl relative mb-20 select-none">
             <div className="banner-wrapper w-full h-full text-white">
                 <Swiper spaceBetween={50} slidesPerView={1} grabCursor={'true'} loop={true}>
                     <SlideNextButton></SlideNextButton>

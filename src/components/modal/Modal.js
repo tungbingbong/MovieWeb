@@ -6,7 +6,6 @@ const Modal = ({ show, setShow, children }) => {
             setShow(false);
         }
     };
-
     return (
         <div
             className={`fixed layer inset-0 bg-black bg-opacity-60 z-[9999] flex justify-center items-center ${

@@ -15,18 +15,18 @@ const UserProfile = () => {
     const [displayName, setDisplayName] = useState('');
     const [loading, setLoading] = useState(false);
     const [show, setShow] = useState(false);
-    const [child, setChild] = useState(null);
     const navigate = useNavigate();
-
+    const [child, setChild] = useState(null);
     const handleSubmit = (e) => {
         e.preventDefault();
     };
-
     const userRef = collection(db, 'users');
 
     const deleteSignedUser = async (password) => {
         const credential = EmailAuthProvider.credential(userInfo.email, password);
+        console.log(credential);
         const result = await reauthenticateWithCredential(auth.currentUser, credential);
+
         await deleteUser(result.user);
         toast.success('Your account has been deleted');
     };
@@ -75,6 +75,7 @@ const UserProfile = () => {
                                         await updateProfile(auth.currentUser, {
                                             displayName: displayName,
                                         });
+                                        toast.success('Update successfully. Please reload the page');
                                         setLoading(false);
                                         setDisplayNameEdit(false);
                                     }}
@@ -142,7 +143,7 @@ const UserProfile = () => {
                                 func={async (pass) => {
                                     if (auth.currentUser)
                                         deleteSignedUser(pass)
-                                            .then(() => {})
+                                            .then((res) => {})
                                             .catch((err) => {
                                                 if (!pass.trim().length) {
                                                     toast.error('Please enter your password');
@@ -155,7 +156,7 @@ const UserProfile = () => {
                                         snapshot.docs.forEach((item) => {
                                             if (item.data().uid === auth.currentUser.uid) {
                                                 const docRef = doc(db, 'users', item.id);
-                                                deleteDoc(docRef).then(() => console.log('done!'));
+                                                deleteDoc(docRef).then((res) => console.log('done!'));
                                             }
                                         });
                                     });

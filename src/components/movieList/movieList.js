@@ -10,11 +10,10 @@ import { SlideNextButton, SlidePrevButton } from '../button/SlideButton';
 const MovieList = ({ type }) => {
     const movies = useGetMovies(tmdb.getMovieList(type));
     const isLoading = !movies || movies.length < 1;
-
     return (
         <div className="w-full movie-list relative">
             {isLoading && (
-                <Swiper grabCursor={'true'} spaceBetween={20} slidesPerView={'auto'}>
+                <Swiper grabCursor={'true'} spaceBetween={50} slidesPerView={'auto'}>
                     <SwiperSlide>
                         <MovieCardLoading></MovieCardLoading>
                     </SwiperSlide>
@@ -35,19 +34,18 @@ const MovieList = ({ type }) => {
                     </SwiperSlide>
                 </Swiper>
             )}
-            <Swiper grabCursor={'true'} spaceBetween={50} slidesPerView={`auto`} fadeEffect={false}>
+            <Swiper grabCursor={'true'} spaceBetween={20} slidesPerView={`auto`}>
                 <SlideNextButton></SlideNextButton>
                 <SlidePrevButton></SlidePrevButton>
                 {movies?.results?.length > 0 &&
-                    movies?.results?.map((item) => (
+                    movies.results.map((item) => (
                         <SwiperSlide key={item.id}>
                             <MovieListItem
-                                item={item}
-                                id={item.id}
                                 name={item.title || item.name}
                                 src={item.poster_path}
                                 vote={item.vote_average}
                                 release={item.release_date || item.first_air_date}
+                                id={item.id}
                             ></MovieListItem>
                         </SwiperSlide>
                     ))}

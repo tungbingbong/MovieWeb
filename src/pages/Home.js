@@ -5,15 +5,14 @@ import MovieList from '~/components/movieList/movieList';
 import SeriesList from '~/components/movieList/SeriesList';
 import PersonalList from '~/components/movieList/PersonalList';
 
-const HomePage = () => {
+const Homepage = () => {
     const userInfo = useSelector((state) => state.auth.userInfo);
-    const currentType = useSelector((state) => state.type);
-
+    const { currentType } = useSelector((state) => state.type);
     return (
         <Fragment>
             <section className="container flex flex-col gap-y-5 text-white mb-10">
                 <div className="flex justify-between w-full">
-                    <span className="text-[20px}">Now Playing</span>
+                    <span className="text-[20px]">Now Playing</span>
                 </div>
                 {currentType === 'Movies' ? (
                     <MovieList type={'now_playing'}></MovieList>
@@ -21,9 +20,10 @@ const HomePage = () => {
                     <SeriesList type={'airing_today'}></SeriesList>
                 )}
             </section>
+
             <section className="container flex flex-col gap-y-5 text-white mb-10">
                 <div className="flex justify-between w-full">
-                    <span className="text-[20px}">Top Rated</span>
+                    <span className="text-[20px]">Top Rated</span>
                 </div>
                 {currentType === 'Movies' ? (
                     <MovieList type={'top_rated'}></MovieList>
@@ -31,6 +31,7 @@ const HomePage = () => {
                     <SeriesList type={'top_rated'}></SeriesList>
                 )}
             </section>
+
             <section className="container flex flex-col gap-y-5 text-white mb-10">
                 <div className="flex justify-between w-full">
                     <span className="text-[20px]">{currentType === 'Movies' ? 'Upcoming' : 'Latest'}</span>
@@ -41,6 +42,7 @@ const HomePage = () => {
                     <SeriesList type={'on_the_air'}></SeriesList>
                 )}
             </section>
+
             {userInfo && (
                 <section className="container flex flex-col gap-y-5 text-white mb-10">
                     <div className="flex justify-between w-full">
@@ -62,4 +64,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default Homepage;

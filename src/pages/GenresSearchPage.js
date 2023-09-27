@@ -9,11 +9,9 @@ import MovieCard, { MovieCardLoading } from '~/components/movieCard/movieCard';
 import Pagination from '~/components/pagination/Pagination';
 
 const GenresSearchPage = () => {
-    // https://api.themoviedb.org/3/discover/movie?api_key=68ff44b16c8cfc514f5219295b422d75&with_genres=28
     const genre = useParams().genre;
     const page = useParams().page;
     const type = useParams().type;
-
     const searchAPI = useGetMovies(tmdbSeries.getSeriesGenreList(genre, page));
     const loading = !searchAPI;
 
@@ -21,7 +19,7 @@ const GenresSearchPage = () => {
         <div className="">
             {loading ? (
                 <div className="w-full h-auto text-white flex flex-wrap flex-row gap-y-7 gap-x-7 justify-center">
-                    {new Array(20).fill(0).map(() => (
+                    {new Array(20).fill(0).map((item) => (
                         <div className="md:w-[300px] w-[45%] flex-shrink-0" key={v4()}>
                             <MovieCardLoading></MovieCardLoading>
                         </div>

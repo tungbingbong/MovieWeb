@@ -8,7 +8,6 @@ const apiKey = '68ff44b16c8cfc514f5219295b422d75';
 const endpointSeries = 'https://api.themoviedb.org/3/tv';
 const seriesSearchEndpoint =
     'https://api.themoviedb.org/3/search/tv?api_key=68ff44b16c8cfc514f5219295b422d75&language=en-US';
-
 export const tmdb = {
     getMovieList: (type, page = 1) => `${endpointMovie}/${type}?api_key=${apiKey}&language=en-US&page=${page}`,
     getMovieDetails: (id, detail) =>

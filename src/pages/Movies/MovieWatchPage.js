@@ -1,18 +1,25 @@
-import { Link, useParams } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 import { tmdb } from '~/config';
+import { useDispatch } from 'react-redux';
 import useGetMovies from '~/hooks/useGetMovies';
+import { setType } from '~/redux/TypeSlice/typeSlice';
 
 const MovieWatchPage = () => {
     const movieId = useParams().movieId;
     const [data, setData] = useState('');
-    console.log(data);
-    const [similar, setSimilar] = useState();
-
     const movies = useGetMovies(tmdb.getMovieDetails(movieId));
+    const [similar, setSimilar] = useState();
     const similarResponse = useGetMovies(tmdb.getMovieDetails(movieId, 'similar'));
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(setType('Movies'));
+    }, []);
 
     useEffect(() => {
         setSimilar(similarResponse);
@@ -20,10 +27,9 @@ const MovieWatchPage = () => {
             setData(res);
         });
     }, [similarResponse]);
-
     return (
         <>
-            <div className="flex md:flex-row flex-col justify-between gap-10 container">
+            <div className="flex md:flex-row flex-col justify-between gap-10 container ">
                 <div className="flex flex-col flex-grow text-white">
                     <div className="relative flex w-full md:h-[50%] h-[350px] flex-shrink-0">
                         {
@@ -32,13 +38,20 @@ const MovieWatchPage = () => {
                                 title="iframe"
                                 src={`https://www.2embed.to/embed/tmdb/movie?id=${movieId}`}
                                 className="relative w-full h-full top-0 left-0"
-                                frameborder="0"
+                                frameBorder="0"
                                 allowFullScreen
                             ></iframe>
                         }
                     </div>
+                    {/* <iframe
+                id="iframe"
+                src={`https://www.2embed.to/embed/tmdb/movie?id=${movieId}`}
+                className="absolute w-full h-full top-0 left-0"
+                frameBorder="0"
+                allowFullScreen
+              ></iframe> */}
                     <div className="flex flex-col flex-shrink-0 mt-5">
-                        <span className="text-white md:text-[30px] text-[35px] font-semibold">{movies?.title}</span>
+                        <span className="text-white md:text-[30px] text-[35px] font-semibold ">{movies?.title}</span>
                         <div className="flex md:text-md text-lg flex-row mt-5 text-tags gap-3">
                             <span className="mr-3 flex flex-row">
                                 <svg
@@ -55,6 +68,7 @@ const MovieWatchPage = () => {
                                 </svg>
                                 <span className="text-gray-400">{Math.round(movies?.vote_average * 10) / 10}</span>
                             </span>
+
                             <span className="mr-3 flex flex-row">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +93,8 @@ const MovieWatchPage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="vertical-scroll text-white md:w-[352px] w-full flex-shrink-0 rounded-lg md:flex-col">
+
+                <div className="vertical-scroll text-white md:w-[352px] w-full flex-shrink-0 rounded-lg md:flex-col ">
                     <span className="md:text-xl text-2xl font-semibold">Recommendations</span>
                     {similar &&
                         similar.results?.length > 0 &&
@@ -97,8 +112,10 @@ const MovieWatchPage = () => {
                                     />
                                 </div>
 
-                                <div className="flex flex-col flex-grow gap-3 justify-center p-3">
-                                    <span className="md:text-xl text-2xl flex-grow-0">{item.title}</span>
+                                <div className="flex flex-col flex-grow gap-3 justify-center p-3 truncate">
+                                    <span className="md:text-xl text-2xl flex-grow-0 max-w-full truncate">
+                                        {item.title}
+                                    </span>
                                     <span className="text-gray-500 mb-6 md:text-md text-lg">{item.release_date}</span>
                                     <span className="flex flex-row items-center md:py-0 py-1 text-tags border-tags border rounded-2xl w-fit px-4 text-sm">
                                         <span className="md:text-md text-xl">
@@ -122,9 +139,9 @@ const MovieWatchPage = () => {
                             </Link>
                         ))}
                     <Link
-                        to={'/movies&page=1'}
+                        to={'/explore&page=1'}
                         className="w-full py-2 hover:bg-gray-700 transition-all
-                             bg-gray-800 my-4 text-center rounded-3xl block md:text-md text-xl"
+               bg-gray-800 my-4 text-center rounded-3xl block md:text-md text-xl"
                     >
                         See More
                     </Link>

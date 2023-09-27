@@ -9,12 +9,12 @@ const ButtonWatch = ({ onClick, className, children, bgColor = 'primary' }) => {
         case 'secondary':
             bgClassName = 'bg-secondary';
             break;
+
         default:
             break;
     }
-
     return (
-        <button className={`${className} ${bgClassName}`} onClick={onClick}>
+        <button onClick={onClick} className={`${className} ${bgClassName}`}>
             {children}
         </button>
     );

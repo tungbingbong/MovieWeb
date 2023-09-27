@@ -24,12 +24,12 @@ const ProfileSideBar = () => {
                 </svg>
             </div>
             <div
-                className={`transition-all flex-col gap-3 md:w-[200px] z-[300] text-white flex md:translate-x-[0] items-start md:p-0 px-5 md:bg-transparent bg-slate-700 justify-center md:relative fixed top-0 bottom-0 left-0 w-2/3 ${
+                className={` transition-all flex-col gap-3 md:w-[200px] z-[300]text-white flex md:translate-x-[0] items-start md:p-0 px-5 md:bg-transparent bg-slate-700 justify-center md:relative fixed top-0 bottom-0 left-0 w-2/3 ${
                     isShow ? 'translate-x-0' : '-translate-x-full'
                 }`}
             >
                 <span className="text-xl font-semibold">ACCOUNT</span>
-                <div className="flex flex-col gap-5 pl-3 mb-10">
+                <div className="flex flex-col gap-5 pl-3 mb-10 ">
                     <NavLink
                         className={({ isActive }) =>
                             `hover:text-primary transition-all flex flex-row gap-3 ${isActive ? 'text-primary' : ''}`
@@ -52,6 +52,7 @@ const ProfileSideBar = () => {
                         </svg>
                         General
                     </NavLink>
+
                     <NavLink
                         className={({ isActive }) =>
                             `hover:text-primary transition-all flex flex-row gap-3 ${isActive ? 'text-primary' : ''}`
@@ -75,6 +76,7 @@ const ProfileSideBar = () => {
                         Password
                     </NavLink>
                 </div>
+
                 <span className="text-xl font-semibold">PERSONAL</span>
                 <div className="flex flex-col gap-5 pl-3">
                     <NavLink

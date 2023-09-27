@@ -25,7 +25,7 @@ const SeriesGenreSearch = () => {
         <>
             {loading ? (
                 <div className="w-full h-auto text-white flex flex-wrap flex-row gap-y-7 gap-x-7 justify-center">
-                    {new Array(20).fill(0).map(() => (
+                    {new Array(20).fill(0).map((item) => (
                         <div className="md:w-[300px] w-[45%] flex-shrink-0" key={v4()}>
                             <MovieCardLoading></MovieCardLoading>
                         </div>

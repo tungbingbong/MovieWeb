@@ -10,8 +10,7 @@ const Pagination = ({ searchAPI, page, type }) => {
     const movieName = useParams().movieName;
     const [currentPage, setCurrentPage] = useState(page);
     const [array, setArray] = useState([]);
-    const currentType = useSelector((state) => state.type);
-
+    const { currentType } = useSelector((state) => state.type);
     useEffect(() => {
         const newArray = Array(searchAPI?.total_pages > 500 ? 500 : searchAPI?.total_pages);
         if (newArray?.length > 0) {
@@ -72,30 +71,38 @@ const Pagination = ({ searchAPI, page, type }) => {
                           .map((item) => (
                               <PaginationLink key={v4()} type={type} item={item} movieName={movieName}></PaginationLink>
                           ))}
-                {currentPage < array?.length - 2 && <span className="text-lg tracking-[10px]">...</span>}
-                <PaginationLink key={v4()} type={type} item={array.length} movieName={movieName}></PaginationLink>
+                {currentPage < array?.length - 2 && (
+                    <span className="text-lg tracking-[10px] hidden md:inline-block">...</span>
+                )}
+
+                {array.length > 2 && (
+                    <PaginationLink key={v4()} type={type} item={array.length} movieName={movieName}></PaginationLink>
+                )}
             </div>
-            <button
-                onClick={() => {
-                    if (page >= 500) return;
-                    navigate(
-                        `/${currentType === 'Movies' ? 'movies' : 'series'}/page=${+page + 1}${
-                            type ? `&searchGenre=${type.id}&type=${type.name}` : ''
-                        }`,
-                    );
-                }}
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
+
+            {array.length > 1 && (
+                <button
+                    onClick={() => {
+                        if (page >= 500) return;
+                        navigate(
+                            `/${currentType === 'Movies' ? 'movies' : 'series'}/page=${+page + 1}${
+                                type ? `&searchGenre=${type.id}&type=${type.name}` : ''
+                            }`,
+                        );
+                    }}
                 >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-            </button>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            )}
         </div>
     );
 };

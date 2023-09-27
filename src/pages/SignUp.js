@@ -18,22 +18,22 @@ const SignUpPage = () => {
         email: Yup.string().email('Email is not valid').required('Email is required'),
         password: Yup.string().required('Password is required').min(8, 'Your password must be 8 characters or more'),
     });
-
     const [modalShow, setModalShow] = useState(false);
-    const [togglePass, setTogglePass] = useState(false);
-    const handleTogglePass = () => {
-        setTogglePass(!togglePass);
-    };
-
     const {
         register,
         handleSubmit,
-        formState: { errors, isValid, isSubmitting },
+        formState: { errors, isValid, isSubmitting, isSubmitted },
     } = useForm({ resolver: yupResolver(schema), mode: 'onChange' });
 
+    const [togglePass, setTogglePass] = useState(false);
+
+    const handleTogglePass = () => {
+        setTogglePass(!togglePass);
+    };
     const navigate = useNavigate();
     const submitForm = async (values) => {
         if (!isValid) return;
+        console.log(isSubmitted);
         const user = await createUserWithEmailAndPassword(auth, values.email, values.password);
         console.log(user);
         await updateProfile(auth.currentUser, {
@@ -50,12 +50,11 @@ const SignUpPage = () => {
             setTimeout(() => {}, 100);
         });
     };
+
     useEffect(() => {
         const arrayErrors = Object.values(errors);
         if (arrayErrors.length > 0) {
-            toast.error(arrayErrors[0]?.message, {
-                pauseOnHover: false,
-            });
+            toast.error(arrayErrors[0]?.message, { pauseOnHover: false });
         }
     }, [errors]);
 
@@ -69,14 +68,15 @@ const SignUpPage = () => {
                 <span className="text-[20px] text-subText mb-4">
                     Already a member?{' '}
                     <button
-                        className="text-secondary ml-2 hover:underline transition-all"
                         onClick={() => setModalShow(true)}
+                        className="text-secondary ml-2 hover:underline transition-all"
                     >
                         Log in
                     </button>
                 </span>
             </div>
-            <form className="relative w-50% flex flex-col gap-10 md:w-[500px] z-40" onSubmit={handleSubmit(submitForm)}>
+
+            <form onSubmit={handleSubmit(submitForm)} className="relative w-50% flex flex-col gap-10 md:w-[500px] z-40">
                 <div className="flex flex-row justify-between gap-5">
                     <div className="relative text-white md:w-[45%]">
                         <input
@@ -100,6 +100,7 @@ const SignUpPage = () => {
                             />
                         </svg>
                     </div>
+
                     <div className="relative text-white md:w-[45%]">
                         <input
                             type="text"
@@ -184,8 +185,10 @@ const SignUpPage = () => {
                     </button>
                 </div>
             </form>
-
-            <div className="md:block hidden fixed right-0 top-0 left-[50%] bottom-0 pointer-events-none h-full overflow-hidden">
+            <div
+                className="lg:block hidden fixed right-0 top-0 left-[50%] bottom-0 
+        pointer-events-none h-full overflow-hidden"
+            >
                 <div className="sign-up-background absolute inset-0 z-50"></div>
                 <img className="w-full z-10 opacity-40" src="/chris-johnson-_1O4ouTZQtg-unsplash.jpg" alt="" />
             </div>

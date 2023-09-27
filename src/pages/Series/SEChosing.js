@@ -3,14 +3,14 @@ import React, { useRef, useState } from 'react';
 import EpisodeList from '~/components/movieList/EpisodeList';
 
 const SEChosing = ({ id, seasonNumber, season }) => {
-    const selectRef = useRef();
     const [chosenSeason, setChosenSeason] = useState(+season);
 
     const array = Array(seasonNumber).fill(null);
+
     for (let i = 0; i < array.length; i++) {
         array[i] = i + 1;
     }
-
+    const selectRef = useRef();
     return (
         <div className="w-full flex flex-col gap-5">
             <select

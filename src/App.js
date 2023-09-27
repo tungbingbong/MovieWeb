@@ -35,7 +35,7 @@ import ChangePassword from './pages/ChangePassword';
 import History from './pages/History';
 import Bookmark from './pages/BookMark';
 
-const HomePage = lazy(() => import('~/pages/Home'));
+const Homepage = lazy(() => import('~/pages/Home'));
 const ExplorePage = lazy(() => import('~/pages/ExplorePage'));
 const MovieDetailPage = lazy(() => import('~/pages/Movies/MovieDetailPage'));
 const MoviesGenreSearch = lazy(() => import('~/pages/Movies/MovieGenreSearch'));
@@ -47,8 +47,7 @@ const SeriesGenreSearch = lazy(() => import('~/pages/Series/SeriesGenreSearch'))
 function App() {
     const dispatch = useDispatch();
     const { history, bookmarkId } = useSelector((state) => state.personal);
-    const currentType = useSelector((state) => state.type);
-
+    const { currentType } = useSelector((state) => state.type);
     useEffect(() => {
         onAuthStateChanged(auth, (currentUser) => {
             if (currentUser) {
@@ -58,11 +57,9 @@ function App() {
             }
         });
     }, [dispatch]);
-
     useEffect(() => {
         const arr = [];
         const bookmarkArr = [];
-
         history.forEach((item) => {
             axios.get(flexible.getDetails(item.type, item.id)).then((res) => {
                 arr.push(res.data);
@@ -76,15 +73,13 @@ function App() {
             });
         });
     }, [history, bookmarkId, dispatch]);
-
     const userList = collection(db, 'users');
-
     useEffect(() => {
         onAuthStateChanged(auth, (currentUser) => {
             if (currentUser) {
                 const uid = currentUser.uid;
                 onSnapshot(userList, (snapshot) => {
-                    snapshot.forEach((doc) => {
+                    snapshot.docs.forEach((doc) => {
                         if (doc.data().uid === uid) {
                             dispatch(setHistory(JSON.parse(doc.data().history)));
                             dispatch(setBookmarkId(JSON.parse(doc.data().bookmark)));
@@ -95,13 +90,11 @@ function App() {
             }
         });
     }, []);
-
     useEffect(() => {
         axios
             .get(tmdb.getTypeGenre(currentType === 'Movies' ? 'movie' : 'tv'))
             .then((res) => dispatch(setGenreList(res.data.genres)));
     }, [currentType]);
-
     return (
         <Fragment>
             <Suspense>
@@ -113,7 +106,7 @@ function App() {
                             element={
                                 <Fragment>
                                     {currentType === 'Movies' ? <Banner></Banner> : <SeriesBanner></SeriesBanner>}
-                                    <HomePage></HomePage>
+                                    <Homepage></Homepage>
                                 </Fragment>
                             }
                         ></Route>

@@ -9,11 +9,12 @@ const EpisodeItem = ({ ep, name, src, id, season }) => {
         >
             <div className="w-full md:h-[140px] block flex-shrink-0 overflow-hidden rounded-lg">
                 <img
-                    className="w-full h-full rounded-lg object-cover"
                     src={`https://image.tmdb.org/t/p/w500${src}`}
                     alt=""
+                    className="w-full h-full rounded-lg object-cover"
                 />
             </div>
+
             <div className="flex flex-col gap-5 md:px-5 px-2">
                 <span>Ep {ep}</span>
                 <span className="w-full truncate h-8 pr-5">{name}</span>

@@ -4,9 +4,8 @@ import { useSelector } from 'react-redux';
 
 const SearchBar = () => {
     const filmSearchRef = useRef();
+    const { currentType } = useSelector((state) => state.type);
     const navigate = useNavigate();
-    const currentType = useSelector((state) => state.type);
-
     const handleClick = () => {
         if (filmSearchRef.current.value === '') return;
         navigate(
@@ -17,19 +16,18 @@ const SearchBar = () => {
             }`,
         );
     };
-
     return (
         <form className="flex flex-row justify-center mx-5 md:max-w-[300px] w-full" onSubmit={handleClick}>
             <input
                 type="text"
                 name=""
                 id=""
-                placeholder="Search"
                 className="px-4 border border-primary outline-none rounded-l-lg w-full"
+                placeholder="Search"
                 ref={filmSearchRef}
             />
             <button
-                className="h-full flex items-center justify-center p-3 bg-primary rounded-r-lg text-white"
+                className="h-full flex items-center justify-center hover:opacity-80 transition-all p-3 bg-primary rounded-r-lg text-white"
                 onClick={handleClick}
             >
                 <svg
